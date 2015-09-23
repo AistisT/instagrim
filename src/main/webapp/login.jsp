@@ -1,35 +1,46 @@
+<%-- 
+    Document   : login.jsp
+    Created on : Sep 28, 2014, 12:04:14 PM
+    Author     : Administrator
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/login.css" />
-        <script src="js/bootstrap.js"></script>
-        <script src="js/jquery-2.1.4.min"></script>
+        <link rel="stylesheet" type="text/css" href="Styles.css" />
 
     </head>
-     <div class="container" >
+    <body>
+        <header>
+        <h1>InstaGrim ! </h1>
+        <h2>Your world in Black and White</h2>
+        </header>
+        <nav>
+            <ul>
+                
+                <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
+            </ul>
+        </nav>
+       
+        <article>
+            <h3>Login</h3>
+            <form method="POST"  action="Login">
+                <ul>
+                    <li>User Name <input type="text" name="username"></li>
+                    <li>Password <input type="password" name="password"></li>
+                </ul>
+                <br/>
+                <input type="submit" value="Login"> 
+            </form>
 
-      <form class="form-signin" method="POST"  action="Login">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label  class="sr-only">User Name</label>
-        <input type="text" name="username" class="form-control" placeholder="User name" required autofocus>
-        <label class="sr-only">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-success btn-block" type="submit">Sign in</button>
-      </form>
-
-    </div> <!-- /container -->
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
-</html>
+        </article>
+        <footer>
+            <ul>
+                <li class="footer"><a href="/Instagrim">Home</a></li>
+            </ul>
+        </footer>
+    </body>
 </html>
