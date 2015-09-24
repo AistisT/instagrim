@@ -17,7 +17,7 @@
         <script src="js/jquery-2.1.4.min"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
-    <body>
+    <body> 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -30,42 +30,23 @@
                     <a class="navbar-brand" href="#">InstaGrin</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right">
+                    <form class="navbar-form navbar-right" method="POST" action="Login">
                         <div class="form-group">
-                            <input type="text" placeholder="Email" class="form-control">
+                            <input type="text" placeholder="Username" name="username" class="form-control">
                         </div>
                         <div class="form-group">
-                            <input type="password" placeholder="Password" class="form-control">
+                            <input type="password" placeholder="Password" name="password" class="form-control">
                         </div>
-                        <a href="login.jsp" class="btn btn-success" href="login.jsp">Sign in</a>
-                        <a href="register.jsp" class="btn btn-info" href="login.jsp">Register</a>
+                        <input class="btn btn-success" type="submit" value="Sign In"></a>
+                        <a href="register.jsp" class="btn btn-info">Register</a>
                     </form>
                 </div><!--/.navbar-collapse -->
             </div>
         </nav>
 
-        <!--  <ul>
-              <li><a href="upload.jsp">Upload</a></li>
-        <%
-            LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-            if (lg != null) {
-                String UserName = lg.getUsername();
-                if (lg.getlogedin()) {
-        %>
-
-    <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-        <%}
-        } else {
-        %>
-    <li><a href="register.jsp">Register</a></li>
-    <li><a href="login.jsp">Login</a></li>
-        <%
-                        }%>
-</ul> -->
 
         <footer>
             <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
                 <li>&COPY; Aistis Taraskevicius</li>
             </ul>
         </footer>
