@@ -12,7 +12,7 @@
     <head>
         <title>InstaGrin</title>
         <!--<link rel="stylesheet" type="text/css" href="css/bootstrap.css.css" />-->
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css" />
         <script src="js/bootstrap.js"></script>
         <script src="js/jquery-2.1.4.min"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
