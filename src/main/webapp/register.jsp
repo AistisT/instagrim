@@ -51,7 +51,7 @@
             <div class="form-group" id="usernameGroup">
                 <label for="username" class="col-sm-4 control-label">Username  <b>*</b></label>
                 <div class="col-sm-8">
-                    <input type="text" ID="username" class="form-control" placeholder="User name" required autofocus>
+                    <input type="text" name="username" class="form-control" placeholder="User name" required autofocus>
                 </div>
             </div>
             <div class="form-group" id="passwordGroup">
@@ -63,37 +63,37 @@
             <div class="form-group" id="emailGroup">
                 <label for="email" class="col-sm-4 control-label">Email Address  </label>
                 <div class="col-sm-8">
-                    <input type="text" name="email" class="form-control" placeholder="Email" required autofocus>
+                    <input type="text" name="email" class="form-control" placeholder="aaa@dundee.ac.co.uk">
                 </div>
             </div>
             <div class="form-group" id="firstNameGroup">
                 <label for="firstName" class="col-sm-4 control-label">First Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="firstName" class="form-control" placeholder="First Name" required autofocus>
+                    <input type="text" name="firstName" class="form-control" placeholder="First Name">
                 </div>
             </div>
             <div class="form-group" id="lastNameGroup">
                 <label for="lastName" class="col-sm-4 control-label">Last Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="lastName" class="form-control" placeholder="Last Name" required autofocus>
+                    <input type="text" name="lastName" class="form-control" placeholder="Last Name">
                 </div>
             </div>
             <div class="form-group" id="streetGroup">
                 <label for="street" class="col-sm-4 control-label">Address</label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="street" class="form-control" placeholder="10 2 Dundee Street" required autofocus>
+                    <input type="text" name="street" class="form-control" placeholder="10 Dundee Street">
                 </div>
             </div>
             <div class="form-group" id="cityGroup">
                 <label for="city" class="col-sm-4 control-label">City  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="city" class="form-control" placeholder="Dundee" required autofocus>
+                    <input type="text" name="city" class="form-control" placeholder="Dundee">
                 </div>
             </div>
             <div class="form-group" id="lastNameGroup">
                 <label for="postcode" class="col-sm-4 control-label">Postcode  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="postcode" class="form-control" placeholder="DD1 1BB" required autofocus>
+                    <input type="text" name="postcode" class="form-control" placeholder="DD1 1BB">
                 </div>
             </div>
             <div class="form-group" id="submitGroup">
