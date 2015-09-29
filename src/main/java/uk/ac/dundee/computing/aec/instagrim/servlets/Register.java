@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
@@ -25,14 +24,13 @@ import uk.ac.dundee.computing.aec.instagrim.models.User;
  */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
-    Cluster cluster=null;
+
+    Cluster cluster = null;
+
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
-
-
-
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -45,21 +43,26 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        String email=request.getParameter("email");
-        String firstName=request.getParameter("firstName");
-        String lastName=request.getParameter("lastName");
-        String street=request.getParameter("street");
-        String city=request.getParameter("city");
-        String postcode=request.getParameter("postcode");
-        
-        User us=new User();
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String postcode = request.getParameter("postcode");
+
+        User us = new User();
         us.setCluster(cluster);
-        us.RegisterUser(username,password,firstName,lastName,email,street,city,postcode);
-        
-	response.sendRedirect("/Instagrim");
-        
+        us.RegisterUser(username, password, firstName, lastName, email, street, city, postcode);
+
+        response.sendRedirect("/Instagrim");
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+        rd.forward(request, response);
     }
 
     /**
