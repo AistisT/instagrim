@@ -48,7 +48,7 @@
                 <div class="form-group" id="usernameGroup">
                     <label for="username" class="col-sm-4 control-label">Username  </label>
                     <div class="col-sm-8">
-                        <input type="text" ID="username" class="form-control" placeholder="User name" required autofocus>
+                        <input type="text" name="username" class="form-control" placeholder="User name" required autofocus>
                     </div>
                 </div>
                 <div class="form-group" id="passwordGroup">

@@ -39,11 +39,11 @@ public class User {
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email,address) Values(?,?,?,?,?,{?,?,?}) IF NOT EXISTS");
+        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name) Values(?,?,?,?) IF NOT EXISTS");
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
-                        username,EncodedPassword,firstName,lastName,email));
+                        username,EncodedPassword,firstName,lastName));
         //We are assuming this always works.  Also a transaction would be good here !
         
         return true;
