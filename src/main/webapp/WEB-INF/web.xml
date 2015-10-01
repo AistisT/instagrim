@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>Home</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Home</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Image</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Image</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Register</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Image</servlet-name>
+        <url-pattern>/Image/*</url-pattern>
+        <url-pattern>/Images</url-pattern>
+        <url-pattern>/Image</url-pattern>
+        <url-pattern>/Thumb/*</url-pattern>
+        <url-pattern>/Images/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <jsp-config>
+        <jsp-property-group>
+            <description>header and footer settings</description>
+            <url-pattern>/home.jsp</url-pattern>
+            <url-pattern>/login.jsp</url-pattern>
+            <url-pattern>/index.jsp</url-pattern>
+            <url-pattern>/register.jsp</url-pattern>
+            <include-prelude>/header.jsp</include-prelude>
+            <include-coda>/footer.jsp</include-coda>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>
