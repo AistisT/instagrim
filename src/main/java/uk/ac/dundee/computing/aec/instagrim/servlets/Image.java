@@ -63,10 +63,8 @@ public class Image extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String args[] = Convertors.SplitRequestPath(request);
@@ -122,6 +120,7 @@ public class Image extends HttpServlet {
         out.close();
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         for (Part part : request.getParts()) {
             System.out.println("Part Name " + part.getName());
@@ -132,11 +131,7 @@ public class Image extends HttpServlet {
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
             HttpSession session = request.getSession();
-            LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-            String username = "majed";
-            if (lg.getlogedin()) {
-                username = lg.getUsername();
-            }
+            String username =(String)session.getAttribute("Username");
             if (i > 0) {
                 byte[] b = new byte[i + 1];
                 is.read(b);
@@ -147,8 +142,7 @@ public class Image extends HttpServlet {
 
                 is.close();
             }
-            RequestDispatcher rd = request.getRequestDispatcher("/home.jsp");
-            rd.forward(request, response);
+                response.sendRedirect("Home");
         }
 
     }

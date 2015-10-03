@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,12 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
-import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 
-/**
- *
- * @author Administrator
- */
+
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 
@@ -46,7 +34,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -56,26 +43,17 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession();
         System.out.println("Session in servlet " + session);
         if (isValid) {
-            LoggedIn lg = new LoggedIn();
-            lg.setLogedin();
-            lg.setUsername(username);
-            System.out.println(username);
-            System.out.println("home");
-            session.setAttribute("LoggedIn", lg);
-            session.setAttribute("Username", lg.getUsername());
+            session.setAttribute("Username", username);
             System.out.println("Session in servlet " + session);
             response.sendRedirect("Home");
 
-
         } else {
-            response.sendRedirect("/Instagrim/login.jsp");
+            response.sendRedirect("Login");
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-        rd.forward(request, response);
+        response.sendRedirect("Login");
     }
 
     /**

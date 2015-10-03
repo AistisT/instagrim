@@ -3,14 +3,8 @@
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="/Instagrim/Styles.css" />
-    </head>
     <body>
-        <header>
-        
+        <header>        
         <h1>InstaGrim ! </h1>
         <h2>Your world in Black and White</h2>
         </header>

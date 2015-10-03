@@ -4,22 +4,10 @@
 <%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>InstaGrin</title>
-    </head>
-
 
     <body>
         <div class="row">
             <div class="col-md-4">
-                <%
-                    LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-                    if (lg != null) {
-                        String UserName = lg.getUsername();
-                        if (lg.getlogedin()) {
-                %>
-                <a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a>
-
                 <h3>File Upload</h3>
                 <form method="POST" enctype="multipart/form-data" action="Image">
                     File to upload: <input type="file" name="upfile"><br/>
@@ -34,7 +22,7 @@
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
                     if (lsPics == null) {
                 %>
-                <p><%= UserName%> </p>
+                <p>No pictures uploaded yet. </p>
                 <%
                 } else {
                     Iterator<Pic> iterator;
@@ -46,8 +34,8 @@
                     <%
                                     }
                                 }
-                            }
-                        }%>
+                           
+                        %>
             </div>
         </div>
     </body>

@@ -14,9 +14,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
-import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
  *
@@ -28,7 +26,7 @@ public class User {
         
     }
     
-    public boolean RegisterUser(String username, String Password, String firstName, String lastName, String email,String stree,String city,String postcode){
+    public boolean RegisterUser(String username, String Password, String firstName, String lastName, String email){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         
@@ -39,13 +37,9 @@ public class User {
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name) Values(?,?,?,?) IF NOT EXISTS");
+        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?) IF NOT EXISTS");
         BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        username,EncodedPassword,firstName,lastName));
-        //We are assuming this always works.  Also a transaction would be good here !
-        
+        session.execute(boundStatement.bind(username,EncodedPassword,firstName,lastName,email));        
         return true;
     }
     

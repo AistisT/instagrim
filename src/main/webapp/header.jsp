@@ -1,3 +1,4 @@
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
@@ -5,8 +6,21 @@
         <script src="js/bootstrap.js"></script>
         <script src="js/jquery-2.1.4.min"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>InstaGrin</title>
     </head>
     <body> 
+        <input type="hidden" id="refreshed" value="no">
+        <script type="text/javascript">
+            onload = function () {
+                var e = document.getElementById("refreshed");
+                if (e.value == "no")
+                    e.value = "yes";
+                else {
+                    e.value = "no";
+                    location.reload();
+                }
+            }</script>
+
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -18,6 +32,22 @@
                     </button>
                     <a class="navbar-brand" href="index.jsp">InstaGrin</a>
                 </div>
+                <% String username = (String) session.getAttribute("Username");
+                    if (username != null) {%>
+
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right"  method="POST" action="Logout">
+                        <div class="form-group">
+                            <a class="navbar-brand"><%=username%></a>
+                        </div>
+                        <input class="btn btn-warning" type="submit" value="Logout">
+
+                    </form>
+                </div><!--/.navbar-collapse -->
+
+
+
+                <% } else { %>
                 <div id="navbar" class="navbar-collapse collapse">
                     <form class="navbar-form navbar-right" method="POST" action="Login">
                         <div class="form-group">
@@ -30,6 +60,7 @@
                         <a href="register.jsp" class="btn btn-info">Register</a>
                     </form>
                 </div><!--/.navbar-collapse -->
+                <%}%>
             </div>
         </nav>
     </body>

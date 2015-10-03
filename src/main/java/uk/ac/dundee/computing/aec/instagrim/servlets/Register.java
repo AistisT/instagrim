@@ -48,18 +48,17 @@ public class Register extends HttpServlet {
         String email = request.getParameter("email");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        String street = request.getParameter("street");
-        String city = request.getParameter("city");
-        String postcode = request.getParameter("postcode");
+
 
         User us = new User();
         us.setCluster(cluster);
-        us.RegisterUser(username, password, firstName, lastName, email, street, city, postcode);
+        us.RegisterUser(username, password, firstName, lastName, email);
 
-        response.sendRedirect("/login.jsp");
+        response.sendRedirect("Login");
 
     }
-
+    
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
         rd.forward(request, response);
