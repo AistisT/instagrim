@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,12 +59,13 @@ public class Login extends HttpServlet {
             LoggedIn lg = new LoggedIn();
             lg.setLogedin();
             lg.setUsername(username);
-            //request.setAttribute("LoggedIn", lg);
-
+            System.out.println(username);
+            System.out.println("home");
             session.setAttribute("LoggedIn", lg);
+            session.setAttribute("Username", lg.getUsername());
             System.out.println("Session in servlet " + session);
-            RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("Home");
+
 
         } else {
             response.sendRedirect("/Instagrim/login.jsp");
