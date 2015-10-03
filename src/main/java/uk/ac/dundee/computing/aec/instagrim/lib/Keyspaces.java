@@ -36,18 +36,12 @@ public final class Keyspaces {
                     + "pic_added timestamp,\n"
                     + "PRIMARY KEY (user,pic_added)\n"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
-            String CreateAddressType = "CREATE TYPE if not exists instagrim.address (\n"
-                    + "      street text,\n"
-                    + "      city text,\n"
-                    + "      zip int\n"
-                    + "  );";
             String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
                      + "     password text,\n"
                     + "      first_name text,\n"
                     + "      last_name text,\n"
-                    + "      email set<text>,\n"
-                    + "      addresses  map<text, frozen <address>>\n"
+                    + "      email text,\n"
                     + "  );";
             Session session = c.connect();
             try {
@@ -78,13 +72,6 @@ public final class Keyspaces {
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create user pic list table " + et);
-            }
-            System.out.println("" + CreateAddressType);
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreateAddressType);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create Address type " + et);
             }
             System.out.println("" + CreateUserProfile);
             try {
