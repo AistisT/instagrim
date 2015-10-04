@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package uk.ac.dundee.computing.aec.instagrim.models;
 
 import com.datastax.driver.core.BoundStatement;
@@ -14,6 +13,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 
 /**
@@ -21,34 +21,36 @@ import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
  * @author Administrator
  */
 public class User {
+
     Cluster cluster;
-    public User(){
-        
+
+    public User() {
+
     }
-    
-    public boolean RegisterUser(String username, String Password, String firstName, String lastName, String email){
-        AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
-        String EncodedPassword=null;
-        
+
+    public boolean RegisterUser(String username, String Password, String firstName, String lastName, String email) {
+        AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
+        String EncodedPassword = null;
+
         try {
-            EncodedPassword= sha1handler.SHA1(Password);
-        }catch (UnsupportedEncodingException | NoSuchAlgorithmException et){
+            EncodedPassword = sha1handler.SHA1(Password);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException et) {
             System.out.println("Can't check your password");
             return false;
         }
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?) IF NOT EXISTS");
         BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute(boundStatement.bind(username,EncodedPassword,firstName,lastName,email));        
+        session.execute(boundStatement.bind(username, EncodedPassword, firstName, lastName, email));
         return true;
     }
-    
-    public boolean IsValidUser(String username, String Password){
-        AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
-        String EncodedPassword=null;
+
+    public boolean IsValidUser(String username, String Password) {
+        AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
+        String EncodedPassword = null;
         try {
-            EncodedPassword= sha1handler.SHA1(Password);
-        }catch (UnsupportedEncodingException | NoSuchAlgorithmException et){
+            EncodedPassword = sha1handler.SHA1(Password);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException et) {
             System.out.println("Can't check your password");
             return false;
         }
@@ -64,19 +66,18 @@ public class User {
             return false;
         } else {
             for (Row row : rs) {
-               
+
                 String StoredPass = row.getString("password");
-                if (StoredPass.compareTo(EncodedPassword) == 0)
+                if (StoredPass.compareTo(EncodedPassword) == 0) {
                     return true;
+                }
             }
         }
-   
-    
-    return false;  
-    }
-       public void setCluster(Cluster cluster) {
-        this.cluster = cluster;
+
+        return false;
     }
 
-    
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }
 }

@@ -14,7 +14,7 @@ public final class Keyspaces {
             String CreatePicTable = "CREATE TABLE if not exists instagrim.Pics ("
                     + " user varchar,"
                     + " picid uuid, "
-                    + " interaction_time timestamp,"
+                    + " date timestamp,"
                     + " title varchar,"
                     + " image blob,"
                     + " thumb blob,"
@@ -24,8 +24,8 @@ public final class Keyspaces {
                     + "  processedlength int,"
                     + " type  varchar,"
                     + " name  varchar,"
-                    + " PRIMARY KEY (picid)"
-                    + ")";
+                    + " PRIMARY KEY (picid, date)"
+                    + ") WITH CLUSTERING ORDER BY (date DESC);"; 
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"

@@ -7,7 +7,6 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -53,9 +52,8 @@ public class Register extends HttpServlet {
         User us = new User();
         us.setCluster(cluster);
         us.RegisterUser(username, password, firstName, lastName, email);
-
-        response.sendRedirect("Login");
-
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        rd.forward(request, response);
     }
     
     @Override

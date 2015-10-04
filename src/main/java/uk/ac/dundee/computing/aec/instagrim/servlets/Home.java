@@ -26,7 +26,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
  *
  * @author Aistis Taraskevicius
  */
-@WebServlet(name = "Home", urlPatterns = {"/Home","/home" })
+@WebServlet(name = "Home", urlPatterns = {"/Home", "/home"})
 public class Home extends HttpServlet {
 
     Cluster cluster = null;
@@ -49,13 +49,17 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         RequestDispatcher rd;
         HttpSession session = request.getSession(true);
-        String username = (String)session.getAttribute("Username");
-        PicModel tm = new PicModel();
-        tm.setCluster(cluster);
-        java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
-        rd = request.getRequestDispatcher("home.jsp");
-        request.setAttribute("Pics", lsPics);
-        rd.forward(request, response);
+        String username = (String) session.getAttribute("Username");
+        if (username != null) {
+            PicModel tm = new PicModel();
+            tm.setCluster(cluster);
+            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
+            rd = request.getRequestDispatcher("home.jsp");
+            request.setAttribute("Pics", lsPics);
+            rd.forward(request, response);
+        } else {
+            response.sendRedirect("Login");
+        }
     }
 
     /**
@@ -69,16 +73,19 @@ public class Home extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                RequestDispatcher rd;
+        RequestDispatcher rd;
         HttpSession session = request.getSession(true);
-        String username = (String)session.getAttribute("Username");
-        PicModel tm = new PicModel();
-        tm.setCluster(cluster);
-        java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
-        rd = request.getRequestDispatcher("home.jsp");
-        request.setAttribute("Pics", lsPics);
-        rd.forward(request, response);
-
+        String username = (String) session.getAttribute("Username");
+        if (username != null) {
+            PicModel tm = new PicModel();
+            tm.setCluster(cluster);
+            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
+            request.setAttribute("Pics", lsPics);
+            rd = request.getRequestDispatcher("home.jsp");
+            rd.forward(request, response);
+        } else {
+            response.sendRedirect("Login");
+        }
     }
 
     /**

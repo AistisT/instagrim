@@ -30,7 +30,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.jsp">InstaGrin</a>
+                    <a class="navbar-brand" href="Index">InstaGrin</a>
                 </div>
                 <% String username = (String) session.getAttribute("Username");
                     if (username != null) {%>
@@ -51,13 +51,13 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <form class="navbar-form navbar-right" method="POST" action="Login">
                         <div class="form-group">
-                            <input type="text" placeholder="Username" name="username" class="form-control">
+                            <input type="text" placeholder="Username" name="username" class="form-control" required autofocus >
                         </div>
                         <div class="form-group">
-                            <input type="password" placeholder="Password" name="password" class="form-control">
+                            <input type="password" placeholder="Password" name="password" class="form-control" required autofocus>
                         </div>
                         <input class="btn btn-success" type="submit" value="Sign In">
-                        <a href="register.jsp" class="btn btn-info">Register</a>
+                        <a href="Register" class="btn btn-info">Register</a>
                     </form>
                 </div><!--/.navbar-collapse -->
                 <%}%>
