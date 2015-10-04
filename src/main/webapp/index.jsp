@@ -5,11 +5,11 @@
 <html lang="en">
 
     <body>
-           <div class="row">
-               <div class="col-md-12">
-                   
-                   
-                                   <%
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <%
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
                     if (lsPics == null) {
                 %>
@@ -23,15 +23,38 @@
                 %>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
                     <%
-                                    }
-                                }
-                           
-                        %>
-                   
-                   
-               </div>
-               </div>
+                            }
+                        }
+
+                    %>
 
 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <% 
+                    java.util.LinkedList<String> userList = (java.util.LinkedList<String>) request.getAttribute("userList");
+                    if (userList == null) {
+                %>
+                <p>No users registered. </p>
+                <%
+                } else {
+                    Iterator<String> iterator;
+                    iterator = userList.iterator();
+                    while (iterator.hasNext()) {
+                        String user = (String) iterator.next();
+                %>
+                <a href="/Instagrim/Images/<%=user%>"><%=user%></a>
+                <%
+                        }
+                    }
+
+                %>
+
+            </div>
+        </div>
     </body>
 </html>

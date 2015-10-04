@@ -1,4 +1,5 @@
 package uk.ac.dundee.computing.aec.instagrim.lib;
+
 import com.datastax.driver.core.*;
 
 public final class Keyspaces {
@@ -21,11 +22,11 @@ public final class Keyspaces {
                     + " processed blob,"
                     + " imagelength int,"
                     + " thumblength int,"
-                    + "  processedlength int,"
+                    + " processedlength int,"
                     + " type  varchar,"
                     + " name  varchar,"
                     + " PRIMARY KEY (picid, date)"
-                    + ") WITH CLUSTERING ORDER BY (date DESC);"; 
+                    + ") WITH CLUSTERING ORDER BY (date DESC);";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
@@ -34,11 +35,18 @@ public final class Keyspaces {
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
             String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
-                     + "     password text,\n"
+                    + "      password text,\n"
                     + "      first_name text,\n"
                     + "      last_name text,\n"
+                    + "      following list<text>,\n"
+                    + "      profilepic uuid,\n"
                     + "      email text,\n"
                     + "  );";
+            String CreateUserList = "CREATE TABLE if not exists instagrim.userlist ("
+                    + " user varchar,"
+                    + " date timestamp,"
+                    + " PRIMARY KEY (user, date)"
+                    + ") WITH CLUSTERING ORDER BY (date DESC);";
             Session session = c.connect();
             try {
                 PreparedStatement statement = session
@@ -53,6 +61,14 @@ public final class Keyspaces {
             }
 
             //now add some column families 
+            System.out.println("" + CreateUserList);
+
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateUserList);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create userlist table " + et);
+            }
             System.out.println("" + CreatePicTable);
 
             try {

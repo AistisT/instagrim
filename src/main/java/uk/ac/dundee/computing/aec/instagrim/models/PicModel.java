@@ -169,9 +169,6 @@ public class PicModel {
                 System.out.println("UUID" + UUID.toString());
                 pic.setUUID(UUID);
                 Pics.add(pic);
-                System.out.println("Inside method");
-                System.out.println("Inside method");
-
             }
         }
         return Pics;

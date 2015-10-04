@@ -13,6 +13,8 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.LinkedList;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 
@@ -38,11 +40,44 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?) IF NOT EXISTS");
-        BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute(boundStatement.bind(username, EncodedPassword, firstName, lastName, email));
+        try {
+            Session session = cluster.connect("instagrim");
+            PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?) IF NOT EXISTS");
+            BoundStatement boundStatement = new BoundStatement(ps);
+            session.execute(boundStatement.bind(username, EncodedPassword, firstName, lastName, email));
+            Date date = new Date();
+            ps = session.prepare("INSERT INTO userlist (user,date) Values(?,?) IF NOT EXISTS");
+            boundStatement = new BoundStatement(ps);
+            session.execute(boundStatement.bind(username, date));
+        } catch (Exception e) {
+            System.out.println(username + " already exists " + e);
+        }
         return true;
+    }
+
+    public LinkedList getUserList() {
+        LinkedList<String> userList = new LinkedList<>();
+        System.out.println("inside user method1");
+        Session session = cluster.connect("instagrim");
+        System.out.println("inside user method2");
+        PreparedStatement ps = session.prepare("select user from userlist LIMIT 20");
+        System.out.println("inside user method3");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        System.out.println("inside user method4");
+        rs = session.execute(boundStatement.bind());
+        if (rs.isExhausted()) {
+            System.out.println("No registered users");
+            return null;
+        } else {
+            for (Row row : rs) {
+                String user = row.getString("user");
+                userList.add(user);
+                System.out.println(user);
+                System.out.println(user);
+            }
+        }
+        return userList;
     }
 
     public boolean IsValidUser(String username, String Password) {
