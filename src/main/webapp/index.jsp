@@ -45,9 +45,9 @@
                     Iterator<String> iterator;
                     iterator = userList.iterator();
                     while (iterator.hasNext()) {
-                        String user = (String) iterator.next();
+                        String userl = (String) iterator.next();
                 %>
-                <a href="/Instagrim/Images/<%=user%>"><%=user%></a>
+                <a href="/Instagrim/Images/<%=userl%>"><%=userl%></a>
                 <%
                         }
                     }
