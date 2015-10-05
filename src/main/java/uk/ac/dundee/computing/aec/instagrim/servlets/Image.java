@@ -18,20 +18,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
-import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
+import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 /**
  * Servlet implementation class Image
  */
-@WebServlet(name="Image",urlPatterns = {
+@WebServlet(name = "Image", urlPatterns = {
     "/Image",
     "/Image/*",
     "/Thumb/*",
@@ -62,7 +58,6 @@ public class Image extends HttpServlet {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -96,6 +91,7 @@ public class Image extends HttpServlet {
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
+        checkFollowing(request);
         rd.forward(request, response);
 
     }
@@ -131,7 +127,7 @@ public class Image extends HttpServlet {
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
             HttpSession session = request.getSession();
-            String username =(String)session.getAttribute("Username");
+            String username = (String) session.getAttribute("Username");
             if (i > 0) {
                 byte[] b = new byte[i + 1];
                 is.read(b);
@@ -142,9 +138,24 @@ public class Image extends HttpServlet {
 
                 is.close();
             }
-                response.sendRedirect("Home");
+            checkFollowing(request);
+            response.sendRedirect("Home");
         }
 
+    }
+
+    protected void checkFollowing(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("Username");
+        String args[] = Convertors.SplitRequestPath(request);
+        if (args.length == 3) {
+            User user = new User();
+            user.setCluster(cluster);
+             System.out.println(args[2]);
+            boolean following = user.checkFollowing(username, args[2]);
+            session.setAttribute("Following", following);
+
+        }
     }
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {

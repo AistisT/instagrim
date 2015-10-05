@@ -39,6 +39,7 @@ public final class Keyspaces {
                     + "      first_name text,\n"
                     + "      last_name text,\n"
                     + "      following list<text>,\n"
+                    + "      followers list<text>,\n"
                     + "      profilepic uuid,\n"
                     + "      email text,\n"
                     + "  );";

@@ -67,13 +67,23 @@
     <div class="container" >
         <div class="col-sm-4 col-sm-offset-4" >
             <%
-                if (username != null) {%>
-                <form method="POST" action="../Home">
-                  <button class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-user" style="vertical-align:middle"></span> Follow
+                if (username != null) {
+                    boolean following = (boolean) session.getAttribute("Following");
+
+                    if (following) {%>
+
+            <button class="btn btn-success disabled"  Value="Following">
+                <span class="glyphicon glyphicon-ok" style="vertical-align:middle">Following</span> 
+            </button>
+
+            <% } else {%>                
+            <form method="POST" action="../Following">
+                <button class="btn btn-primary" type="submit" name="userToFollow">
+                    <span class="glyphicon glyphicon-user" style="vertical-align:middle">Follow</span> 
                 </button>
-                </form>
-                <%}%>
+            </form>
+            <%}
+                    }%>
 
 
         </div>

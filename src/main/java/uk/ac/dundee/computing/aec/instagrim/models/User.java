@@ -15,7 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.LinkedList;
-import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 
 /**
@@ -55,16 +54,49 @@ public class User {
         return true;
     }
 
-    public LinkedList getUserList() {
-        LinkedList<String> userList = new LinkedList<>();
-        System.out.println("inside user method1");
+    public boolean followUser(String username, String userToFollow) {
         Session session = cluster.connect("instagrim");
-        System.out.println("inside user method2");
-        PreparedStatement ps = session.prepare("select user from userlist LIMIT 20");
-        System.out.println("inside user method3");
+        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (following) Values(?) where login =?");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute(boundStatement.bind(username, userToFollow));
+        ps = session.prepare("INSERT INTO userprofiles (followers) Values(?) where login =?");
+        boundStatement = new BoundStatement(ps);
+        session.execute(boundStatement.bind(userToFollow, username));
+        return true;
+    }
+
+    public boolean checkFollowing(String user, String userToFollow) {
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select following from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        System.out.println("inside user method4");
+        rs = session.execute(boundStatement.bind(user));
+        java.util.List<String> followingList = new java.util.LinkedList<>();
+        boolean result = false;
+        if (rs.isExhausted()) {
+            System.out.println("Following no users");
+            return false;
+        } else {
+
+            for (Row row : rs) {
+                followingList = row.getList("following", String.class);
+            }
+        }
+        for (int i = 0; i < followingList.size(); i++) {
+            if (followingList.get(i).equals(userToFollow)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public LinkedList getUserList() {
+        LinkedList<String> userList = new LinkedList<>();
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select user from userlist LIMIT 20");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute(boundStatement.bind());
         if (rs.isExhausted()) {
             System.out.println("No registered users");
@@ -73,8 +105,6 @@ public class User {
             for (Row row : rs) {
                 String user = row.getString("user");
                 userList.add(user);
-                System.out.println(user);
-                System.out.println(user);
             }
         }
         return userList;

@@ -30,6 +30,10 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Following</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Following</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -61,6 +65,10 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Following</servlet-name>
+        <url-pattern>/Following</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
