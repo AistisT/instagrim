@@ -24,9 +24,9 @@ import uk.ac.dundee.computing.aec.instagrim.models.User;
  * @author Aistis Taraskevicius
  */
 public class Following extends HttpServlet {
-    
+
     Cluster cluster = null;
-    
+
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
@@ -46,16 +46,13 @@ public class Following extends HttpServlet {
         RequestDispatcher rd;
         HttpSession session = request.getSession(true);
         String username = (String) session.getAttribute("Username");
+        System.out.println(username + " inside the method");
         if (username != null) {
-            String args[] = Convertors.SplitRequestPath(request);
-            System.out.println(request);
-            System.out.println(args[1]);
-            if (args.length == 3) {
-                System.out.println(args[2]);
-                User user = new User();
-                user.setCluster(cluster);
-                user.followUser(username, args[2]);
-            }
+            String userToFollow = (String) session.getAttribute("userToFollow");
+            System.out.println(userToFollow);
+            User user = new User();
+            user.setCluster(cluster);
+            user.followUser(username, userToFollow);
         }
         response.sendRedirect("Home");
     }
@@ -97,5 +94,5 @@ public class Following extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-    
+
 }

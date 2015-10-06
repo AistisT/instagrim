@@ -91,6 +91,7 @@ public class Image extends HttpServlet {
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
+        HttpSession session = request.getSession();
         checkFollowing(request);
         rd.forward(request, response);
 
@@ -148,13 +149,15 @@ public class Image extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("Username");
         String args[] = Convertors.SplitRequestPath(request);
-        if (args.length == 3) {
-            User user = new User();
-            user.setCluster(cluster);
-             System.out.println(args[2]);
-            boolean following = user.checkFollowing(username, args[2]);
-            session.setAttribute("Following", following);
-
+        if (username != null) {
+            if (args.length == 3) {
+                User user = new User();
+                user.setCluster(cluster);
+                System.out.println(args[2]);
+                boolean following = user.checkFollowing(username, args[2]);
+                session.setAttribute("Following", following);
+                session.setAttribute(("userToFollow"), args[2]);
+            }
         }
     }
 

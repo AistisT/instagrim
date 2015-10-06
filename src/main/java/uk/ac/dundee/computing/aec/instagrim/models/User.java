@@ -15,6 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 
 /**
@@ -56,12 +58,23 @@ public class User {
 
     public boolean followUser(String username, String userToFollow) {
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("INSERT INTO userprofiles (following) Values(?) where login =?");
+        PreparedStatement ps = session.prepare("update userprofiles set following=? where login =?");
+        List<String> followList;
+        followList=getFollow(username, "following");
+        // secondary list, because java decided to be silly and wont allow adding new userToFollow to returned list..
+        List<String> followArray=new ArrayList<>();
+        followArray.addAll(followList);
+        followArray.add(userToFollow);
         BoundStatement boundStatement = new BoundStatement(ps);
-        session.execute(boundStatement.bind(username, userToFollow));
-        ps = session.prepare("INSERT INTO userprofiles (followers) Values(?) where login =?");
+        session.execute(boundStatement.bind(followArray, username));
+        ps = session.prepare("update userprofiles set followers=? where login =?");
+        followList.clear();
+        followList=getFollow(userToFollow,"followers");
+        followArray.clear();
+        followArray.addAll(followList);
+        followArray.add(userToFollow);
         boundStatement = new BoundStatement(ps);
-        session.execute(boundStatement.bind(userToFollow, username));
+        session.execute(boundStatement.bind(followArray, userToFollow));
         return true;
     }
 
@@ -89,6 +102,22 @@ public class User {
             }
         }
         return result;
+    }
+
+    public List<String> getFollow(String user, String field) {
+        List<String> followlist = new LinkedList<>();
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select "+field+" from userprofiles where login =?");
+        ResultSet rs;
+        BoundStatement friends = new BoundStatement(ps);
+        rs = session.execute(friends.bind(user));
+        if (!rs.isExhausted())//If there is a result
+        {
+            for (Row row : rs) {
+                followlist = row.getList(field, String.class);
+            }
+        }
+        return followlist;
     }
 
     public LinkedList getUserList() {
