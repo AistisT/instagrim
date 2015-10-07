@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
 
 import uk.ac.dundee.computing.aec.instagrim.models.User;
 
@@ -52,7 +51,11 @@ public class Following extends HttpServlet {
             System.out.println(userToFollow);
             User user = new User();
             user.setCluster(cluster);
-            user.followUser(username, userToFollow);
+            if ((Boolean) session.getAttribute("Follow")) {
+                user.followUser(username, userToFollow, "follow");
+            } else {
+                user.followUser(username, userToFollow, "unfollow");
+            }
         }
         response.sendRedirect("Home");
     }

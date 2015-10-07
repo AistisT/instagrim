@@ -56,23 +56,32 @@ public class User {
         return true;
     }
 
-    public boolean followUser(String username, String userToFollow) {
+    public boolean followUser(String username, String userToFollow, String command) {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("update userprofiles set following=? where login =?");
         List<String> followList;
-        followList=getFollow(username, "following");
+        followList = getFollow(username, "following");
         // secondary list, because java decided to be silly and wont allow adding new userToFollow to returned list..
-        List<String> followArray=new ArrayList<>();
+        List<String> followArray = new ArrayList<>();
         followArray.addAll(followList);
-        followArray.add(userToFollow);
+        if (command.equals("unfollow")) {
+            followArray.remove(userToFollow);
+        } else if (command.equals("follow")) {
+            followArray.add(userToFollow);
+        }
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute(boundStatement.bind(followArray, username));
         ps = session.prepare("update userprofiles set followers=? where login =?");
-        followList.clear();
-        followList=getFollow(userToFollow,"followers");
+        //Java is being silly again...
+        List<String> followList1;
+        followList1 = getFollow(userToFollow, "followers");
         followArray.clear();
-        followArray.addAll(followList);
-        followArray.add(userToFollow);
+        followArray.addAll(followList1);
+        if (command.equals("unfollow")) {
+            followArray.remove(userToFollow);
+        } else if (command.equals("follow")){
+            followArray.add(userToFollow);
+        }
         boundStatement = new BoundStatement(ps);
         session.execute(boundStatement.bind(followArray, userToFollow));
         return true;
@@ -107,7 +116,7 @@ public class User {
     public List<String> getFollow(String user, String field) {
         List<String> followlist = new LinkedList<>();
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select "+field+" from userprofiles where login =?");
+        PreparedStatement ps = session.prepare("select " + field + " from userprofiles where login =?");
         ResultSet rs;
         BoundStatement friends = new BoundStatement(ps);
         rs = session.execute(friends.bind(user));

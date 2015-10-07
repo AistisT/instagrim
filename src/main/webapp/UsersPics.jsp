@@ -31,7 +31,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="Index">InstaGrin</a>
+                <a class="navbar-brand" href="../Index">InstaGrin</a>
             </div>
             <% String username = (String) session.getAttribute("Username");
                 if (username != null) {%>
@@ -70,20 +70,23 @@
                 if (username != null) {
                     boolean following = (boolean) session.getAttribute("Following");
 
-                    if (following) {%>
+                    if (following) {
+                        session.setAttribute("Follow", false); %>
+            <form method="POST" action="../Following">            
+                <button class="btn btn-success"  type="submit" name="userToFollow">
+                    <span class="glyphicon glyphicon-ok" style="vertical-align:middle">Unfollow</span> 
+                </button>
+            </form>
 
-            <button class="btn btn-success disabled"  Value="Following">
-                <span class="glyphicon glyphicon-ok" style="vertical-align:middle">Following</span> 
-            </button>
-
-            <% } else {%>                
+            <% } else {
+                session.setAttribute("Follow", true); %>                
             <form method="POST" action="../Following">
                 <button class="btn btn-primary" type="submit" name="userToFollow">
                     <span class="glyphicon glyphicon-user" style="vertical-align:middle">Follow</span> 
                 </button>
             </form>
             <%}
-                    }%>
+                }%>
 
 
         </div>
