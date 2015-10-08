@@ -179,27 +179,37 @@ public class PicModel {
 
     public LinkedList<Pic> getPicsFeed(String username) {
         User user = new User();
+        user.setCluster(cluster);
         List<String> followList;
         followList = user.getFollow(username, "following");
-        
         LinkedList<Pic> Pics = new LinkedList<>();
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select picid , date from Pics LIMIT 20 where user");
-        ResultSet rs = null;
-        BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute(boundStatement.bind());
-        if (rs.isExhausted()) {
-            System.out.println("No Images returned");
-            return null;
-        } else {
-            for (Row row : rs) {
-                Pic pic = new Pic();
-                java.util.UUID UUID = row.getUUID("picid");
-                System.out.println("UUID" + UUID.toString());
-                pic.setUUID(UUID);
-                Pics.add(pic);
-            }
+        String users="";
+        for (int i = 0; i < followList.size(); i++) {
+            users+="?";
+            if (i!=followList.size()-1)
+                users+=",";
         }
+        System.out.println(users);
+            PreparedStatement ps = session.prepare("select picid from Pics where user IN ("+users +") LIMIT 20");
+            ResultSet rs = null;
+            BoundStatement boundStatement = new BoundStatement(ps);
+             for (int i=0; i<followList.size(); i++){ 
+                       boundStatement.bind( followList.get(i));
+             }      
+            rs = session.execute(boundStatement);
+            if (rs.isExhausted()) {
+                System.out.println("No Images returned");
+                return null;
+            } else {
+                for (Row row : rs) {
+                    Pic pic = new Pic();
+                    java.util.UUID UUID = row.getUUID("picid");
+                    System.out.println("UUID" + UUID.toString());
+                    pic.setUUID(UUID);
+                    Pics.add(pic);
+                }
+            }
         return Pics;
     }
 

@@ -34,29 +34,30 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        User us = new User();
-        us.setCluster(cluster);
-        boolean isValid = us.IsValidUser(username, password);
         HttpSession session = request.getSession();
-        System.out.println("Session in servlet " + session);
-        if (isValid) {
-            session.setAttribute("Username", username);
+        if ((String) session.getAttribute("Username") != null) {
+            response.sendRedirect("Home");
+        } else {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            User us = new User();
+            us.setCluster(cluster);
+            boolean isValid = us.IsValidUser(username, password);
             System.out.println("Session in servlet " + session);
-            response.sendRedirect("Home");
-
-        } else {
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            if (isValid) {
+                session.setAttribute("Username", username);
+                response.sendRedirect("Home");
+            } else {
+                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                rd.forward(request, response);
+            }
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         HttpSession session = request.getSession();
-        if ((String) session.getAttribute("User") == null) {
+        if ((String) session.getAttribute("Username") == null) {
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.forward(request, response);
         } else {
@@ -64,14 +65,13 @@ public class Login extends HttpServlet {
         }
     }
 
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
-@Override
-        public String getServletInfo() {
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

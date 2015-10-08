@@ -25,8 +25,9 @@ public final class Keyspaces {
                     + " processedlength int,"
                     + " type  varchar,"
                     + " name  varchar,"
-                    + " PRIMARY KEY (picid, date)"
+                    + " PRIMARY KEY (picid,date)"
                     + ") WITH CLUSTERING ORDER BY (date DESC);";
+            String CreateIndexOnPicTable="Create INDEX user ON instagrim.Pics (user)";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
@@ -70,7 +71,15 @@ public final class Keyspaces {
             } catch (Exception et) {
                 System.out.println("Can't create userlist table " + et);
             }
-            System.out.println("" + CreatePicTable);
+            System.out.println("" + CreateUserList);
+
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnPicTable);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create userlist index " + et);
+            }
+            System.out.println("" + CreateIndexOnPicTable);
 
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);
