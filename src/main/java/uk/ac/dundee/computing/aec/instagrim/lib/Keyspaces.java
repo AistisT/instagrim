@@ -27,7 +27,7 @@ public final class Keyspaces {
                     + " name  varchar,"
                     + " PRIMARY KEY (picid,date)"
                     + ") WITH CLUSTERING ORDER BY (date DESC);";
-            String CreateIndexOnPicTable="Create INDEX user ON instagrim.Pics (user)";
+            String CreateIndexOnPicTable="Create INDEX userfeed ON instagrim.Pics (user)";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
@@ -73,7 +73,7 @@ public final class Keyspaces {
             }
             System.out.println("" + CreateUserList);
 
-            try {
+           try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnPicTable);
                 session.execute(cqlQuery);
             } catch (Exception et) {

@@ -25,9 +25,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
@@ -182,22 +185,13 @@ public class PicModel {
         user.setCluster(cluster);
         List<String> followList;
         followList = user.getFollow(username, "following");
-        LinkedList<Pic> Pics = new LinkedList<>();
+        Map<Date, Pic> map = new TreeMap<>();
         Session session = cluster.connect("instagrim");
-        String users="";
         for (int i = 0; i < followList.size(); i++) {
-            users+="?";
-            if (i!=followList.size()-1)
-                users+=",";
-        }
-        System.out.println(users);
-            PreparedStatement ps = session.prepare("select picid from Pics where user IN ("+users +") LIMIT 20");
+            PreparedStatement ps = session.prepare("select picid,date from Pics where user=? LIMIT 20");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
-             for (int i=0; i<followList.size(); i++){ 
-                       boundStatement.bind( followList.get(i));
-             }      
-            rs = session.execute(boundStatement);
+            rs = session.execute(boundStatement.bind(followList.get(i)));
             if (rs.isExhausted()) {
                 System.out.println("No Images returned");
                 return null;
@@ -205,11 +199,19 @@ public class PicModel {
                 for (Row row : rs) {
                     Pic pic = new Pic();
                     java.util.UUID UUID = row.getUUID("picid");
+                    Date date = row.getDate("date");
                     System.out.println("UUID" + UUID.toString());
                     pic.setUUID(UUID);
-                    Pics.add(pic);
+                    map.put(date, pic);
                 }
             }
+        }
+        Map<Date, Pic> reverseMap = new TreeMap(Collections.reverseOrder());
+        reverseMap.putAll(map);
+        LinkedList<Pic> Pics = new LinkedList<>(reverseMap.values());
+        if (Pics.size() >= 20) {
+            Pics.subList(20, Pics.size()).clear();
+        }
         return Pics;
     }
 
