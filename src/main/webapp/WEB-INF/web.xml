@@ -38,6 +38,10 @@
         <servlet-name>Feed</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Feed</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Settings</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Settings</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -78,6 +82,10 @@
         <servlet-name>Feed</servlet-name>
         <url-pattern>/Feed</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Settings</servlet-name>
+        <url-pattern>/Settings</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             3000
@@ -91,6 +99,7 @@
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/register.jsp</url-pattern>
             <url-pattern>/feed.jsp</url-pattern>
+            <url-pattern>/settings.jsp</url-pattern>
             <include-prelude>/header.jsp</include-prelude>
             <include-coda>/footer.jsp</include-coda>
         </jsp-property-group>

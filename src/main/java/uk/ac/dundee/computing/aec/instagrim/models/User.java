@@ -79,7 +79,7 @@ public class User {
         followArray.addAll(followList1);
         if (command.equals("unfollow")) {
             followArray.remove(userToFollow);
-        } else if (command.equals("follow")){
+        } else if (command.equals("follow")) {
             followArray.add(userToFollow);
         }
         boundStatement = new BoundStatement(ps);
@@ -178,6 +178,48 @@ public class User {
         }
 
         return false;
+    }
+
+    public ArrayList getUserinfo(String username) {
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select first_name,last_name,email from userprofiles where login =?");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        ArrayList<String> info = new ArrayList<>();
+        rs = session.execute( // this is where the query is executed
+                boundStatement.bind( // here you are binding the 'boundStatement'
+                        username));
+        if (rs.isExhausted()) {
+            for (int i = 0; i < 3; i++) {
+                info.add(null);
+            }
+        } else {
+            for (Row row : rs) {
+                info.add(row.getString("first_name"));
+                info.add(row.getString("last_name"));
+                info.add(row.getString("email"));
+            }
+        }
+        return info;
+    }
+
+    public boolean updateDetails(String username, String Password, String firstName, String lastName, String email) {
+        AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
+        String EncodedPassword = null;
+        if (!Password.equals("")) {
+            try {
+                EncodedPassword = sha1handler.SHA1(Password);
+            } catch (UnsupportedEncodingException | NoSuchAlgorithmException et) {
+                System.out.println("Can't check your password");
+                return false;
+            }
+        }
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("UPDATE userprofiles SET first_name=?, last_name=?, email=? where login=?");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        System.out.println(EncodedPassword+" "+firstName+" "+lastName+" "+email+" "+username);
+        session.execute(boundStatement.bind(firstName, lastName, email, username));
+        return true;
     }
 
     public void setCluster(Cluster cluster) {
