@@ -27,7 +27,21 @@ public final class Keyspaces {
                     + " name  varchar,"
                     + " PRIMARY KEY (picid,date)"
                     + ") WITH CLUSTERING ORDER BY (date DESC);";
-            String CreateIndexOnPicTable="Create INDEX userfeed ON instagrim.Pics (user)";
+            String CreatePicProfilePic = "CREATE TABLE if not exists instagrim.ProfilePics ("
+                    + " user varchar,"
+                    + " picid uuid, "
+                    + " title varchar,"
+                    + " image blob,"
+                    + " thumb blob,"
+                    + " processed blob,"
+                    + " imagelength int,"
+                    + " thumblength int,"
+                    + " processedlength int,"
+                    + " type  varchar,"
+                    + " name  varchar,"
+                    + " PRIMARY KEY (user,picid)"
+                    + ");";
+            String CreateIndexOnPicTable = "Create INDEX userfeed ON instagrim.Pics (user)";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
@@ -71,21 +85,30 @@ public final class Keyspaces {
             } catch (Exception et) {
                 System.out.println("Can't create userlist table " + et);
             }
-            System.out.println("" + CreateUserList);
 
-           try {
+            System.out.println("" + CreatePicProfilePic);
+
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreatePicProfilePic);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create profilePic table " + et);
+            }
+
+             System.out.println("" + CreateIndexOnPicTable);
+            try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnPicTable);
                 session.execute(cqlQuery);
             } catch (Exception et) {
-                System.out.println("Can't create userlist index " + et);
+                System.out.println("Can't create indexonpic index " + et);
             }
-            System.out.println("" + CreateIndexOnPicTable);
+            System.out.println("" + CreatePicTable);
 
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);
                 session.execute(cqlQuery);
             } catch (Exception et) {
-                System.out.println("Can't create tweet table " + et);
+                System.out.println("Can't create pic table " + et);
             }
             System.out.println("" + Createuserpiclist);
 
@@ -100,7 +123,7 @@ public final class Keyspaces {
                 SimpleStatement cqlQuery = new SimpleStatement(CreateUserProfile);
                 session.execute(cqlQuery);
             } catch (Exception et) {
-                System.out.println("Can't create Address Profile " + et);
+                System.out.println("Can't create user Profile " + et);
             }
             session.close();
 

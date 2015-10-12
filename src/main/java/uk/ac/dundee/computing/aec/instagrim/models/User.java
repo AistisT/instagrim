@@ -206,14 +206,14 @@ public class User {
     public boolean updateDetails(String username, String Password, String firstName, String lastName, String email) {
         AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
-        if (!Password.equals("")) {
+       /* if (!Password.equals("")) {
             try {
                 EncodedPassword = sha1handler.SHA1(Password);
             } catch (UnsupportedEncodingException | NoSuchAlgorithmException et) {
                 System.out.println("Can't check your password");
                 return false;
             }
-        }
+        }*/
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET first_name=?, last_name=?, email=? where login=?");
         BoundStatement boundStatement = new BoundStatement(ps);

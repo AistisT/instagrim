@@ -91,10 +91,8 @@ public class Image extends HttpServlet {
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
-        HttpSession session = request.getSession();
         checkFollowing(request);
         rd.forward(request, response);
-
     }
 
     private void DisplayImage(int type, String Image, HttpServletResponse response) throws ServletException, IOException {
@@ -124,23 +122,31 @@ public class Image extends HttpServlet {
 
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
-
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
             HttpSession session = request.getSession();
+            String uri = (String)session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
+            System.out.println(uri);
             if (i > 0) {
                 byte[] b = new byte[i + 1];
                 is.read(b);
                 System.out.println("Length : " + b.length);
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username);
-
+                if (uri.equalsIgnoreCase("Settings")) {
+                    tm.insertProfilePic(b, type, filename, username);
+                } else {
+                    tm.insertPic(b, type, filename, username);
+                }
                 is.close();
             }
-            checkFollowing(request);
-            response.sendRedirect("Home");
+            if (uri.equalsIgnoreCase("Settings")) {
+                response.sendRedirect("Settings");
+            } else {
+                checkFollowing(request);
+                response.sendRedirect("Home");
+            }
         }
 
     }

@@ -1,18 +1,39 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.Pic"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    
-     <div class="container">
-         
-         <div class="col-md-4">
-                <h3>File Upload</h3>
-                <form method="POST" enctype="multipart/form-data" action="Image">
-                    File to upload: <input type="file" name="upfile"><br/>
 
-                    <br/>
-                    <input type="submit" value="Press"> to upload the file!
-                </form>
-            </div>
+    <div class="container">
+
+        <div class="col-md-4">
+            <%
+                java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
+                if (lsPics == null) {
+            %>
+            <p>No pictures uploaded yet. </p>
+            <%
+            } else {
+                Iterator<Pic> iterator;
+                iterator = lsPics.iterator();
+                while (iterator.hasNext()) {
+                    Pic p = (Pic) iterator.next();
+            %>
+            <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
+                <%
+                        }
+                    }
+
+                %>
+
+            <h3>File Upload</h3>
+            <form method="POST" enctype="multipart/form-data" action="Image">
+                File to upload: <input type="file" name="upfile"><br/>
+
+                <br/>
+                <input type="submit" value="Press" onclick="<%session.setAttribute("origin", "settings");%>"> to upload the file!
+            </form>
+        </div>
         <form class="col-sm-8 "  method="POST"  action="Settings">
             <div class="form-group">
                 <div class="col-sm-4"></div>
@@ -29,19 +50,19 @@
             <div class="form-group" name="emailGroup">
                 <label for="email" class="col-sm-4 control-label">Email Address  </label>
                 <div class="col-sm-8">
-                    <input type="text" name="email" class="form-control" value=<%=(String)session.getAttribute("email")%>>
+                    <input type="text" name="email" class="form-control" value=<%=(String) session.getAttribute("email")%>>
                 </div>
             </div>
             <div class="form-group" name="firstNameGroup">
                 <label for="firstName" class="col-sm-4 control-label">First Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="firstName" class="form-control" value=<%=(String)session.getAttribute("firstName")%>>
+                    <input type="text" name="firstName" class="form-control" value=<%=(String) session.getAttribute("firstName")%>>
                 </div>
             </div>
             <div class="form-group" name="lastNameGroup">
                 <label for="lastName" class="col-sm-4 control-label">Last Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="lastName" class="form-control" value=<%=(String)session.getAttribute("lastName")%>     >
+                    <input type="text" name="lastName" class="form-control" value=<%=(String) session.getAttribute("lastName")%>     >
                 </div>
             </div>
             <div class="form-group" name="submitGroup">
@@ -52,5 +73,5 @@
             </div>
         </form>
     </div> <!-- /container -->
-    
+
 </html>

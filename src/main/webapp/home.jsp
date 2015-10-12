@@ -9,11 +9,10 @@
         <div class="row">
             <div class="col-md-4">
                 <h3>File Upload</h3>
-                <form method="POST" enctype="multipart/form-data" action="Image">
-                    File to upload: <input type="file" name="upfile"><br/>
-
+                <form id="uploadFile" method="POST" enctype="multipart/form-data" action="Image" >
+                    File to upload: <input id="fileInput" type="file" accept=".jpg,.jpeg,.png" name="upfile"><br/>
                     <br/>
-                    <input type="submit" value="Press"> to upload the file!
+                    <input id="upButton" type="submit"  onclick="<%session.setAttribute("origin", "home");%>" value="Press"> to upload the file!
                 </form>
             </div>
             <div class="col-md-8">
@@ -32,11 +31,21 @@
                 %>
                 <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
                     <%
-                                    }
-                                }
-                           
-                        %>
+                            }
+                        }
+
+                    %>
             </div>
         </div>
     </body>
+
+    <script>
+        $("#fileInput").change(function () {
+            var fileExtension = ['jpeg', 'jpg', 'png'];
+            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) === -1) {
+                alert("Only formats are allowed : " + fileExtension.join(', '));
+            }
+        });
+    </script>
+
 </html>
