@@ -101,6 +101,7 @@ public class Settings extends HttpServlet {
         us.setCluster(cluster);
         HttpSession session = request.getSession(true);
         String username = (String) session.getAttribute("Username");
+        session.setAttribute("displayProfilePic",true);
         us.updateDetails(username, password, firstName, lastName, email);
         response.sendRedirect("Settings");
     }

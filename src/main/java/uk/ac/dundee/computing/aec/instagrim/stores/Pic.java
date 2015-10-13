@@ -18,10 +18,21 @@ public class Pic {
     private int length;
     private String type;
     private java.util.UUID UUID=null;
+    private String tableName;
     
     public void Pic() {
 
     }
+    
+    public void setTableName(String tableName)
+    {
+        this.tableName=tableName;
+    }
+       public String getTableName()
+    {
+        return tableName;
+    }
+    
     public void setUUID(java.util.UUID UUID){
         this.UUID =UUID;
     }

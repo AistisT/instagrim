@@ -63,6 +63,13 @@ public class Image extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String args[] = Convertors.SplitRequestPath(request);
+        HttpSession session = request.getSession();
+        String tableName = "Pics";    
+            if ((Boolean) session.getAttribute("displayProfilePic")) {
+                tableName = "ProfilePics";
+            } else {
+                tableName = "Pics";
+            }
         int command;
         try {
             command = (Integer) CommandsMap.get(args[1]);
@@ -72,13 +79,13 @@ public class Image extends HttpServlet {
         }
         switch (command) {
             case 1:
-                DisplayImage(Convertors.DISPLAY_PROCESSED, args[2], response);
+                DisplayImage(Convertors.DISPLAY_PROCESSED, args[2], response, tableName);
                 break;
             case 2:
                 DisplayImageList(args[2], request, response);
                 break;
             case 3:
-                DisplayImage(Convertors.DISPLAY_THUMB, args[2], response);
+                DisplayImage(Convertors.DISPLAY_THUMB, args[2], response, tableName);
                 break;
             default:
                 error("Bad Operator", response);
@@ -95,11 +102,10 @@ public class Image extends HttpServlet {
         rd.forward(request, response);
     }
 
-    private void DisplayImage(int type, String Image, HttpServletResponse response) throws ServletException, IOException {
+    private void DisplayImage(int type, String Image, HttpServletResponse response, String tableName) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-
-        Pic p = tm.getPic(type, java.util.UUID.fromString(Image));
+        Pic p = tm.getPic(type, java.util.UUID.fromString(Image), tableName);
 
         OutputStream out = response.getOutputStream();
 
@@ -118,20 +124,17 @@ public class Image extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         for (Part part : request.getParts()) {
-            System.out.println("Part Name " + part.getName());
-
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
             HttpSession session = request.getSession();
-            String uri = (String)session.getAttribute("origin");
+            session.setAttribute("displayProfilePic",false);
+            String uri = (String) session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
-            System.out.println(uri);
             if (i > 0) {
                 byte[] b = new byte[i + 1];
                 is.read(b);
-                System.out.println("Length : " + b.length);
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
                 if (uri.equalsIgnoreCase("Settings")) {

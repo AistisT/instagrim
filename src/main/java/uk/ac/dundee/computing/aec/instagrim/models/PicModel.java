@@ -1,4 +1,5 @@
 package uk.ac.dundee.computing.aec.instagrim.models;
+
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
@@ -67,7 +69,7 @@ public class PicModel {
         byte[] thumbb = picresize(picid.toString(), types[1], b);
         int thumblength = thumbb.length;
         ByteBuffer thumbbuf = ByteBuffer.wrap(thumbb);
-        byte[] processedb = picdecolour(picid.toString(), types[1],b);
+        byte[] processedb = picdecolour(picid.toString(), types[1], b);
         ByteBuffer processedbuf = ByteBuffer.wrap(processedb);
         int processedlength = processedb.length;
         Session session = cluster.connect("instagrim");
@@ -78,14 +80,16 @@ public class PicModel {
             PreparedStatement psInsertPic = session.prepare("insert into ProfilePics ( picid, image,thumb,processed, user,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?)");
             BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
             session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, length, thumblength, processedlength, type, name));
+
+            PreparedStatement psInsertProfilePic = session.prepare("UPDATE userprofiles SET profilepic=? where login=?");
+            BoundStatement bsInsertProfilePic = new BoundStatement(psInsertProfilePic);
+            session.execute(bsInsertProfilePic.bind(picid, user));
         } else {
-            PreparedStatement psInsertPic = session.prepare("UPDATE ProfilePics SET image=?, thumb=?, processed=?,imagelength=?,thumblength=?,processedlength=?,type=?,name=? where user=?");
+            PreparedStatement psInsertPic = session.prepare("UPDATE ProfilePics SET image=?, thumb=?, processed=?,imagelength=?,thumblength=?,processedlength=?,type=?,name=? where picid=?");
             BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
-            session.execute(bsInsertPic.bind(buffer, thumbbuf, processedbuf,length, thumblength, processedlength, type, name, user));
+            session.execute(bsInsertPic.bind(buffer, thumbbuf, processedbuf, length, thumblength, processedlength, type, name, currentPicid));
         }
-        PreparedStatement psInsertProfilePic = session.prepare("UPDATE userprofiles SET profilepic=? where login=?");
-        BoundStatement bsInsertProfilePic = new BoundStatement(psInsertProfilePic);
-        session.execute(bsInsertProfilePic.bind(picid, user));
+        ;
         session.close();
     }
 
@@ -105,12 +109,12 @@ public class PicModel {
         }
         return picid;
     }
- 
+
     public LinkedList<Pic> getProfilePic(String User) {
         LinkedList<Pic> Pics = new LinkedList<>();
         System.out.println(User);
         Session session = cluster.connect("instagrim");
-        PreparedStatement  ps = session.prepare("select picid from ProfilePics where user =?");
+        PreparedStatement ps = session.prepare("select picid from ProfilePics where user =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute(boundStatement.bind(User));
@@ -130,7 +134,6 @@ public class PicModel {
         session.close();
         return Pics;
     }
-      
 
     public byte[] picresize(String picid, String type, byte[] b) {
         try {
@@ -262,7 +265,7 @@ public class PicModel {
         return Pics;
     }
 
-    public Pic getPic(int image_type, java.util.UUID picid) {
+    public Pic getPic(int image_type, java.util.UUID picid, String tableName) {
         Session session = cluster.connect("instagrim");
         ByteBuffer bImage = null;
         String type = null;
@@ -270,14 +273,14 @@ public class PicModel {
         try {
             ResultSet rs = null;
             PreparedStatement ps = null;
-
+            System.out.println(tableName);
             if (image_type == Convertors.DISPLAY_IMAGE) {
                 // needs fixing for profile pic
-                ps = session.prepare("select image,imagelength,type from pics where picid =?");
+                ps = session.prepare("select image,imagelength,type from " + tableName + " where picid =?");
             } else if (image_type == Convertors.DISPLAY_THUMB) {
-                ps = session.prepare("select thumb,imagelength,thumblength,type from pics where picid =?");
+                ps = session.prepare("select thumb,imagelength,thumblength,type from " + tableName + " where picid =?");
             } else if (image_type == Convertors.DISPLAY_PROCESSED) {
-                ps = session.prepare("select processed,processedlength,type from pics where picid =?");
+                ps = session.prepare("select processed,processedlength,type from " + tableName + " where picid =?");
             }
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute( // this is where the query is executed

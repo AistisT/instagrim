@@ -39,9 +39,10 @@ public final class Keyspaces {
                     + " processedlength int,"
                     + " type  varchar,"
                     + " name  varchar,"
-                    + " PRIMARY KEY (user,picid)"
+                    + " PRIMARY KEY (picid)"
                     + ");";
             String CreateIndexOnPicTable = "Create INDEX userfeed ON instagrim.Pics (user)";
+            String CreateIndexOnProfilePicTable = "Create INDEX userProfile ON instagrim.ProfilePics (user)";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
@@ -95,13 +96,21 @@ public final class Keyspaces {
                 System.out.println("Can't create profilePic table " + et);
             }
 
-             System.out.println("" + CreateIndexOnPicTable);
+            System.out.println("" + CreateIndexOnPicTable);
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnPicTable);
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create indexonpic index " + et);
             }
+            System.out.println("" + CreateIndexOnProfilePicTable);
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnProfilePicTable);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create profilePic index " + et);
+            }
+
             System.out.println("" + CreatePicTable);
 
             try {

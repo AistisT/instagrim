@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
@@ -19,10 +14,7 @@ import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
-/**
- *
- * @author Aistis Taraskevicius
- */
+
 @WebServlet(name = "Home", urlPatterns = {"/Home", "/home"})
 public class Home extends HttpServlet {
 
@@ -49,6 +41,7 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         RequestDispatcher rd;
         HttpSession session = request.getSession(true);
+        session.setAttribute("displayProfilePic",false);
         String username = (String) session.getAttribute("Username");
         if (username != null) {
             PicModel tm = new PicModel();
@@ -62,11 +55,6 @@ public class Home extends HttpServlet {
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
