@@ -48,7 +48,7 @@
                         LinkedList list = (LinkedList) literator.next();
                         if (list == null) {
                 %>
-                <p>No profile picture. </p>
+             <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <figure> <img style="max-width: 100px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif">
                 <%
                 } else {
                     Iterator<Pic> iterator1;
@@ -56,12 +56,12 @@
                     while (iterator1.hasNext()) {
                         Pic p = (Pic) iterator1.next();
                 %>
-                <li class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a></li>
+              <li1 class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <figure><a href="/Instagrim/Images/<%=userl%>" ><img style="max-width: 100px" src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a>
                     <%
                             }
                         }
                     %>
-                <li class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><a href="/Instagrim/Images/<%=userl%>"><%=userl%></a></li>
+                      <figcaption><a href="/Instagrim/Images/<%=userl%>"><%=userl%></a></figcaption></figure></li1>
                 <%
                         }
                     }

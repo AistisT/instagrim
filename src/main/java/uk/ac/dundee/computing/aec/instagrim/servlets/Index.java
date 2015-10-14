@@ -74,9 +74,10 @@ public class Index extends HttpServlet {
         LinkedList<String> userList = user.getUserList();
         request.setAttribute("userList", userList);
         LinkedList<LinkedList> profilePics = new LinkedList<>();
+        if(userList!=null){
         for (int i = 0; i < userList.size(); i++) {
             profilePics.add(tm.getProfilePic(userList.get(i)));
-        }
+        }}
          request.setAttribute("ProfilePicsList", profilePics);
 
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
