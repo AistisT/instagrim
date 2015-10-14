@@ -92,23 +92,45 @@
         </div>
         <article>
             <h1>Your Pics</h1>
+                      <%
+                java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
+                if (pfPics == null) {
+            %>
+            <p>No profile picture. </p>
+            <%
+            } else {
+                Iterator<Pic> iterator;
+                iterator = pfPics.iterator();
+                while (iterator.hasNext()) {
+                    Pic p = (Pic) iterator.next();
+            %>
+            <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
+                <%
+                        }
+                    }
+
+                %>
+            
+            
+            
+            
             <%
                 java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
                 if (lsPics == null) {
             %>
-            <p>No Pictures found</p>
+            <p>No pictures uploaded yet. </p>
             <%
             } else {
                 Iterator<Pic> iterator;
                 iterator = lsPics.iterator();
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();
-
             %>
-            <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><%
-
+            <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
+                <%
+                        }
                     }
-                }
+
                 %>
         </article>
     </div>

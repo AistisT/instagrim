@@ -12,7 +12,7 @@
         <script type="text/javascript">
             onload = function () {
                 var e = document.getElementById("refreshed");
-                if (e.value == "no")
+                if (e.value === "no")
                     e.value = "yes";
                 else {
                     e.value = "no";

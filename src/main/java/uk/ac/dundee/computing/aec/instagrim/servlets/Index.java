@@ -7,6 +7,7 @@ package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
+import java.util.LinkedList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -62,32 +63,34 @@ public class Index extends HttpServlet {
 
     protected void doProcess(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            PicModel tm = new PicModel();
-            tm.setCluster(cluster);
-            java.util.LinkedList<Pic> lsPics = tm.getPics();
-            request.setAttribute("Pics", lsPics);
 
-            User user = new User();
-            user.setCluster(cluster);
-            java.util.LinkedList<String> userList = user.getUserList();
-            request.setAttribute("userList", userList);
+        PicModel tm = new PicModel();
+        tm.setCluster(cluster);
+        LinkedList<Pic> lsPics = tm.getPics();
+        request.setAttribute("Pics", lsPics);
 
-            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-            rd.forward(request, response);
+        User user = new User();
+        user.setCluster(cluster);
+        LinkedList<String> userList = user.getUserList();
+        request.setAttribute("userList", userList);
+        LinkedList<LinkedList> profilePics = new LinkedList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            profilePics.add(tm.getProfilePic(userList.get(i)));
         }
-    
+         request.setAttribute("ProfilePicsList", profilePics);
 
-        /**
-         * Returns a short description of the servlet.
-         *
-         * @return a String containing servlet description
-         */
-        @Override
-        public String getServletInfo
-        
-            () {
-        return "Short description";
-        }
-
+        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        rd.forward(request, response);
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }
+
+}

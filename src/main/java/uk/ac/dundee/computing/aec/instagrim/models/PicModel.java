@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
@@ -288,7 +287,7 @@ public class PicModel {
                             picid));
 
             if (rs.isExhausted()) {
-                System.out.println("No Images returned pic");
+                System.out.println("No Images returned "+tableName);
                 return null;
             } else {
                 for (Row row : rs) {

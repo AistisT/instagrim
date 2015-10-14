@@ -35,8 +35,8 @@
             <div class="col-md-12">
 
 
-                <% 
-                    java.util.LinkedList<String> userList = (java.util.LinkedList<String>) request.getAttribute("userList");
+                <%  java.util.LinkedList<String> userList = (java.util.LinkedList<String>) request.getAttribute("userList");
+                    java.util.LinkedList<LinkedList> pfPics = (java.util.LinkedList<LinkedList>) request.getAttribute("ProfilePicsList");
                     if (userList == null) {
                 %>
                 <p>No users registered. </p>
@@ -44,11 +44,32 @@
                 } else {
                     Iterator<String> iterator;
                     iterator = userList.iterator();
+                    Iterator<LinkedList> literator;
+                    literator= pfPics.iterator();                    
                     while (iterator.hasNext()) {
                         String userl = (String) iterator.next();
+                        LinkedList list=(LinkedList) literator.next();
+                        if (list == null) {
                 %>
+                <p>No profile picture. </p>
+                <%
+                } else {
+                    Iterator<Pic> iterator1;
+                    iterator1 = list.iterator();
+                    while (iterator1.hasNext()) {
+                        Pic p = (Pic) iterator1.next();
+                %>
+                <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
+                    <%
+                            }
+                        }
+
+                    %>
+
+
                 <a href="/Instagrim/Images/<%=userl%>"><%=userl%></a>
                 <%
+                           
                         }
                     }
 

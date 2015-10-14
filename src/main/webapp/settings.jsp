@@ -8,23 +8,25 @@
 
         <div class="col-md-4">
             <%
-                java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
-                if (lsPics == null) {
+                java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
+                if (pfPics == null) {
             %>
-            <p>No pictures uploaded yet. </p>
+            <p>No profile picture. </p>
             <%
             } else {
                 Iterator<Pic> iterator;
-                iterator = lsPics.iterator();
+                iterator = pfPics.iterator();
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();
             %>
-            <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
+            <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
                 <%
                         }
                     }
 
                 %>
+
+
 
             <h3>File Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">

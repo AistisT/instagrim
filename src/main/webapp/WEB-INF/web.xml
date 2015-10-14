@@ -54,6 +54,8 @@
         <url-pattern>/Image</url-pattern>
         <url-pattern>/Thumb/*</url-pattern>
         <url-pattern>/Images/*</url-pattern>
+        <url-pattern>/ProfilePic/*</url-pattern>
+        <url-pattern>/PThumb/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>

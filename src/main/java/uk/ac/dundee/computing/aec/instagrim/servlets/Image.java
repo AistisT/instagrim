@@ -32,6 +32,8 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Image/*",
     "/Thumb/*",
     "/Images",
+    "/ProfilePic/",
+    "/PThumb/",
     "/Images/*"
 })
 @MultipartConfig
@@ -51,6 +53,8 @@ public class Image extends HttpServlet {
         CommandsMap.put("Image", 1);
         CommandsMap.put("Images", 2);
         CommandsMap.put("Thumb", 3);
+        CommandsMap.put("ProfilePic", 4);
+        CommandsMap.put("PThumb", 5);
 
     }
 
@@ -63,13 +67,13 @@ public class Image extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         String args[] = Convertors.SplitRequestPath(request);
-        HttpSession session = request.getSession();
-        String tableName = "Pics";    
-            if ((Boolean) session.getAttribute("displayProfilePic")) {
-                tableName = "ProfilePics";
-            } else {
-                tableName = "Pics";
-            }
+        /*  HttpSession session = request.getSession();
+         String tableName = "Pics";    
+         if ((Boolean) session.getAttribute("displayProfilePic")) {
+         tableName = "ProfilePics";
+         } else {
+         tableName = "Pics";
+         }*/
         int command;
         try {
             command = (Integer) CommandsMap.get(args[1]);
@@ -79,13 +83,19 @@ public class Image extends HttpServlet {
         }
         switch (command) {
             case 1:
-                DisplayImage(Convertors.DISPLAY_PROCESSED, args[2], response, tableName);
+                DisplayImage(Convertors.DISPLAY_PROCESSED, args[2], response, "Pics");
                 break;
             case 2:
                 DisplayImageList(args[2], request, response);
                 break;
             case 3:
-                DisplayImage(Convertors.DISPLAY_THUMB, args[2], response, tableName);
+                DisplayImage(Convertors.DISPLAY_THUMB, args[2], response, "Pics");
+                break;
+            case 4:
+                DisplayImage(Convertors.DISPLAY_PROCESSED, args[2], response, "ProfilePics");
+                break;
+            case 5:
+                DisplayImage(Convertors.DISPLAY_THUMB, args[2], response, "ProfilePics");
                 break;
             default:
                 error("Bad Operator", response);
@@ -95,9 +105,11 @@ public class Image extends HttpServlet {
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
+        java.util.LinkedList<Pic> pfPics = tm.getProfilePic(User);
+        request.setAttribute("ProfilePics", pfPics);
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
-        RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
+        RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         checkFollowing(request);
         rd.forward(request, response);
     }
@@ -129,7 +141,6 @@ public class Image extends HttpServlet {
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
             HttpSession session = request.getSession();
-            session.setAttribute("displayProfilePic",false);
             String uri = (String) session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
             if (i > 0) {
