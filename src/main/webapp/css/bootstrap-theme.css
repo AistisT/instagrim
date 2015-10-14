@@ -1427,6 +1427,19 @@ ol {
 ul ul,
 ol ul,
 ul ol,
+
+ul {
+  padding:0 0 0 0;
+  margin:0 0 0 0;
+}
+ul li {
+  list-style:none;
+  margin-bottom:25px;
+}
+ul li img {
+  cursor: pointer;
+}
+
 ol ol {
   margin-bottom: 0;
 }

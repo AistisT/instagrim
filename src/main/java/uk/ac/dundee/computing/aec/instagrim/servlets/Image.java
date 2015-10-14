@@ -49,7 +49,6 @@ public class Image extends HttpServlet {
      */
     public Image() {
         super();
-        // TODO Auto-generated constructor stub
         CommandsMap.put("Image", 1);
         CommandsMap.put("Images", 2);
         CommandsMap.put("Thumb", 3);
@@ -59,21 +58,12 @@ public class Image extends HttpServlet {
     }
 
     public void init(ServletConfig config) throws ServletException {
-        // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
         String args[] = Convertors.SplitRequestPath(request);
-        /*  HttpSession session = request.getSession();
-         String tableName = "Pics";    
-         if ((Boolean) session.getAttribute("displayProfilePic")) {
-         tableName = "ProfilePics";
-         } else {
-         tableName = "Pics";
-         }*/
         int command;
         try {
             command = (Integer) CommandsMap.get(args[1]);
@@ -188,6 +178,5 @@ public class Image extends HttpServlet {
         out.println("<h1>You have a na error in your input</h1>");
         out.println("<h2>" + mess + "</h2>");
         out.close();
-        return;
     }
 }

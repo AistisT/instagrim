@@ -5,10 +5,10 @@
 <html lang="en">
 
     <body>
-        <div class="row">
-            <div class="col-md-12">
 
-
+        <div class="container">
+            <h1 class="text-center text-primary">Latest Images</h1><br/>
+            <ul class="row">
                 <%
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
                     if (lsPics == null) {
@@ -21,20 +21,17 @@
                     while (iterator.hasNext()) {
                         Pic p = (Pic) iterator.next();
                 %>
-                <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
-                    <%
-                            }
+                <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> <a href="/Instagrim/Image/<%=p.getSUUID()%>"><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a> </li>
+                <%
                         }
+                    }
 
-                    %>
-
-
-            </div>
+                %>
+            </ul>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-
-
+        <div class="container">
+            <h1 class="text-center text-success">Newest Users</h1><br/>
+            <ul class="row">
                 <%  java.util.LinkedList<String> userList = (java.util.LinkedList<String>) request.getAttribute("userList");
                     java.util.LinkedList<LinkedList> pfPics = (java.util.LinkedList<LinkedList>) request.getAttribute("ProfilePicsList");
                     if (userList == null) {
@@ -45,10 +42,10 @@
                     Iterator<String> iterator;
                     iterator = userList.iterator();
                     Iterator<LinkedList> literator;
-                    literator= pfPics.iterator();                    
+                    literator = pfPics.iterator();
                     while (iterator.hasNext()) {
                         String userl = (String) iterator.next();
-                        LinkedList list=(LinkedList) literator.next();
+                        LinkedList list = (LinkedList) literator.next();
                         if (list == null) {
                 %>
                 <p>No profile picture. </p>
@@ -59,22 +56,16 @@
                     while (iterator1.hasNext()) {
                         Pic p = (Pic) iterator1.next();
                 %>
-                <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
+                <li class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a></li>
                     <%
                             }
                         }
-
                     %>
-
-
-                <a href="/Instagrim/Images/<%=userl%>"><%=userl%></a>
+                <li class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><a href="/Instagrim/Images/<%=userl%>"><%=userl%></a></li>
                 <%
-                           
                         }
                     }
-
                 %>
-
             </div>
         </div>
     </body>
