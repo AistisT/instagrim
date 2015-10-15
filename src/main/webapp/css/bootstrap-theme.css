@@ -1434,7 +1434,7 @@ ul {
 }
 ul li {
   list-style:none;
-  margin-bottom:25px;
+    margin-bottom:25px;
 }
 ul li img {
   cursor: pointer;

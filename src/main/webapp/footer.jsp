@@ -9,7 +9,8 @@
 <html>
     <body>
        <footer>
-            <ul>
+           <ul class="text-center">
+               <br/><br/>
                 <li>&COPY; Aistis Taraskevicius</li>
             </ul>
         </footer>

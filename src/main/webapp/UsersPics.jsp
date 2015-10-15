@@ -64,35 +64,12 @@
             <%}%>
         </div>
     </nav>
-    <div class="container" >
-        <div class="col-sm-4 col-sm-offset-4" >
+
+
+
+    <div class="row">
+        <div class="col-md-3 text-center" style="padding-right: 0px">
             <%
-                if (username != null) {
-                    boolean following = (boolean) session.getAttribute("Following");
-
-                    if (following) {
-                        session.setAttribute("Follow", false); %>
-            <form method="POST" action="../Following">            
-                <button class="btn btn-success"  type="submit" name="userToFollow">
-                    <span class="glyphicon glyphicon-ok" style="vertical-align:middle">Unfollow</span> 
-                </button>
-            </form>
-
-            <% } else {
-                session.setAttribute("Follow", true); %>                
-            <form method="POST" action="../Following">
-                <button class="btn btn-primary" type="submit" name="userToFollow">
-                    <span class="glyphicon glyphicon-user" style="vertical-align:middle">Follow</span> 
-                </button>
-            </form>
-            <%}
-                }%>
-
-
-        </div>
-        <article>
-            <h1>Your Pics</h1>
-                      <%
                 java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
                 if (pfPics == null) {
             %>
@@ -104,35 +81,58 @@
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();
             %>
-            <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
+            <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/><br/>    
                 <%
                         }
-                    }
-
-                %>
-            
-            
-            
-            
-            <%
-                java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-                if (lsPics == null) {
-            %>
-            <p>No pictures uploaded yet. </p>
-            <%
-            } else {
-                Iterator<Pic> iterator;
-                iterator = lsPics.iterator();
-                while (iterator.hasNext()) {
-                    Pic p = (Pic) iterator.next();
-            %>
-            <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
+                    } %>
                 <%
-                        }
-                    }
+                    if (username != null) {
+                        boolean following = (boolean) session.getAttribute("Following");
 
-                %>
-        </article>
+                        if (following) {
+                            session.setAttribute("Follow", false); %>
+            <form method="POST" action="../Following">            
+                <button class="btn btn-success" type="submit" name="userToFollow">
+                    <span class="glyphicon glyphicon-ok" style="vertical-align:middle">Un-follow</span> 
+                </button>
+            </form>
+
+            <% } else {
+                session.setAttribute("Follow", true); %>                
+            <form method="POST" action="../Following">
+                <button class="btn btn-primary" type="submit" name="userToFollow">
+                    <span class="glyphicon glyphicon-user" style="vertical-align:middle">Follow</span> 
+                </button>
+            </form>
+            <%}
+                }%> 
+
+
+        </div>
+        <div class="col-md-9" style="padding-left: 0px; margin-left: -15px">
+            <div class="container" style="padding-left: 0px">
+                <h1 class="text-center text-primary">User Images</h1><br/>
+                <ul class="row">
+                    <%                java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
+                        if (lsPics == null) {
+                    %>
+                    <p>No pictures uploaded yet. </p>
+                    <%
+                    } else {
+                        Iterator<Pic> iterator;
+                        iterator = lsPics.iterator();
+                        while (iterator.hasNext()) {
+                            Pic p = (Pic) iterator.next();
+                    %>
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/></li>
+                            <%
+                                    }
+                                }
+
+                            %>
+                </ul>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -9,8 +9,6 @@ import com.datastax.driver.core.Session;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -56,6 +54,7 @@ public class PicModel {
         BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
         BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
         Date DateAdded = new Date();
+        System.out.println(DateAdded);
         session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, DateAdded, length, thumblength, processedlength, type, name));
         session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
         session.close();

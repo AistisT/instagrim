@@ -30,6 +30,10 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="Index">InstaGrin</a>
+                                        <a class="navbar-brand"></a>
+                    <a class="navbar-brand" href="Home">Home</a>
+                    <a class="navbar-brand" href="Feed">Feed</a>
+                    <a class="navbar-brand" href="Settings">Settings</a>
                 </div>
                 <% String username = (String) session.getAttribute("Username");
                     if (username != null) {%>
