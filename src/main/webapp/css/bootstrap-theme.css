@@ -35,7 +35,10 @@ section,
 summary {
   display: block;
 }
-
+.border1 {
+    border:1px solid #ccc; 
+    margin-left:70px;
+}
 audio,
 canvas,
 progress,

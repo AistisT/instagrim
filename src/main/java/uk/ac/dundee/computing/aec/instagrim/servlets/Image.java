@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -99,6 +100,16 @@ public class Image extends HttpServlet {
         request.setAttribute("ProfilePics", pfPics);
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
         request.setAttribute("Pics", lsPics);
+        
+        User user=new User();
+        user.setCluster(cluster);
+        ArrayList<String> userDetails=user.getUserinfo(User);
+        request.setAttribute("firstName", userDetails.get(0));
+        request.setAttribute("lastName", userDetails.get(1));
+        request.setAttribute("email", userDetails.get(2));
+        request.setAttribute("user", User);
+        
+        
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         checkFollowing(request);
         rd.forward(request, response);

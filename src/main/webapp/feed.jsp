@@ -6,37 +6,22 @@
 <html>
 
     <body>
-        <div class="row">
-            <div class="col-md-4">
-                <h3>File Upload</h3>
-                <form method="POST" enctype="multipart/form-data" action="Image">
-                    File to upload: <input type="file" name="upfile"><br/>
-
-                    <br/>
-                    <input type="submit" value="Press"> to upload the file!
-                </form>
-            </div>
-            <div class="col-md-8">
-                <h1>Your Pics</h1>
-                <%
-                    java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-                    if (lsPics == null) {
-                %>
-                <p>No pictures uploaded yet. </p>
-                <%
-                } else {
+        <div class="container">
+            <ul class="row">
+                <h1 class="text-center text-success">Pictures from your friends</h1><br/>
+                <%java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
+                        if (lsPics == null) {%>
+                <p>No pictures uploaded yet.</p>
+                <%} else {
                     Iterator<Pic> iterator;
                     iterator = lsPics.iterator();
                     while (iterator.hasNext()) {
-                        Pic p = (Pic) iterator.next();
-                %>
-                <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/>
-                    <%
-                                    }
-                                }
-                           
-                        %>
-            </div>
+                        Pic p = (Pic) iterator.next();%>
+                <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/></li>
+                        <%}
+                            }%>
+            </ul>
         </div>
-    </body>
+    </div>
+</body>
 </html>

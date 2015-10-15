@@ -3,68 +3,49 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
-    <div class="container">
-
-        <div class="col-md-4">
-            <%
-                java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
-                if (pfPics == null) {
-            %>
-            <p>No profile picture. </p>
-            <%
-            } else {
+         <div class="row">
+             <div class="col-md-2 border1"><br>
+            <%  java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
+                if (pfPics == null) {%>
+            <img style="max-width: 150px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif">
+            <%} else {
                 Iterator<Pic> iterator;
                 iterator = pfPics.iterator();
                 while (iterator.hasNext()) {
-                    Pic p = (Pic) iterator.next();
-            %>
+                    Pic p = (Pic) iterator.next();%>
             <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
-                <%
-                        }
-                    }
-
-                %>
-
-
-
+                <%}
+                    } %>
             <h3>File Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">
                 File to upload: <input type="file" name="upfile"><br/>
-
                 <br/>
                 <input type="submit" value="Press" onclick="<%session.setAttribute("origin", "settings");%>"> to upload the file!
             </form>
         </div>
-        <form class="col-sm-8 "  method="POST"  action="Settings">
+        <form class="col-md-4 col-md-offset-2 " method="POST"  action="Settings">
             <div class="form-group">
                 <div class="col-sm-4"></div>
-                <div class="col-sm-6">
-                    <h1 class="form-signin-heading">Update account info</h1><br>
-                </div>
-            </div>
-            <div class="form-group" name="passwordGroup">
-                <label for="password" class="col-sm-4 control-label">Password</label>
                 <div class="col-sm-8">
-                    <input type="password" name="password" class="form-control" placeholder="Password" autofocus>
+                    <h1 class="form-signin-heading">Update account info</h1><br>
                 </div>
             </div>
             <div class="form-group" name="emailGroup">
                 <label for="email" class="col-sm-4 control-label">Email Address  </label>
                 <div class="col-sm-8">
-                    <input type="text" name="email" class="form-control" value=<%=(String) session.getAttribute("email")%>>
+                    <input type="text" name="email" class="form-control" value=<%=(String) request.getAttribute("email")%>>
                 </div>
             </div>
             <div class="form-group" name="firstNameGroup">
                 <label for="firstName" class="col-sm-4 control-label">First Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="firstName" class="form-control" value=<%=(String) session.getAttribute("firstName")%>>
+                    <input type="text" name="firstName" class="form-control" value=<%=(String) request.getAttribute("firstName")%>>
                 </div>
             </div>
             <div class="form-group" name="lastNameGroup">
                 <label for="lastName" class="col-sm-4 control-label">Last Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="lastName" class="form-control" value=<%=(String) session.getAttribute("lastName")%>     >
+                    <input type="text" name="lastName" class="form-control" value=<%=(String) request.getAttribute("lastName")%>     >
                 </div>
             </div>
             <div class="form-group" name="submitGroup">
@@ -74,6 +55,5 @@
                 </div>
             </div>
         </form>
-    </div> <!-- /container -->
-
+    </div> 
 </html>

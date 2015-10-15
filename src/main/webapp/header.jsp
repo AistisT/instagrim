@@ -22,47 +22,32 @@
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                <div class="navbar-left">
                     <a class="navbar-brand" href="Index">InstaGrin</a>
-                                        <a class="navbar-brand"></a>
-                    <a class="navbar-brand" href="Home">Home</a>
-                    <a class="navbar-brand" href="Feed">Feed</a>
-                    <a class="navbar-brand" href="Settings">Settings</a>
                 </div>
                 <% String username = (String) session.getAttribute("Username");
                     if (username != null) {%>
-
-                <div id="navbar" class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right"  method="POST" action="Logout">
-                        <div class="form-group">
-                            <a class="navbar-brand"><%=username%></a>
-                        </div>
-                        <input class="btn btn-warning" type="submit" value="Logout">
-
-                    </form>
-                </div><!--/.navbar-collapse -->
-
-
-
+                <div class="navbar-right">                    
+                    <a class="navbar-brand" href="Home">Home</a>
+                    <a class="navbar-brand" href="Feed">Feed</a>
+                    <a class="navbar-brand" href="Settings">Settings</a>
+                    <a class="navbar-brand" href="">                        </a>
+                    <a class="navbar-brand" style="color: greenyellow"><%=username%></a>
+                <form class="navbar-form navbar-right"  method="POST" action="Logout">
+                    <input class="btn btn-warning" type="submit" value="Logout">
+                </form>
+                </div>
                 <% } else { %>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right" method="POST" action="Login">
-                        <div class="form-group">
-                            <input type="text" placeholder="Username" name="username" class="form-control" required autofocus >
-                        </div>
-                        <div class="form-group">
-                            <input type="password" placeholder="Password" name="password" class="form-control" required autofocus>
-                        </div>
-                        <input class="btn btn-success" type="submit" value="Sign In">
-                        <a href="Register" class="btn btn-info">Register</a>
-                    </form>
-                </div><!--/.navbar-collapse -->
+                <form class="navbar-form navbar-right" method="POST" action="Login">
+                    <div class="form-group">
+                        <input type="text" placeholder="Username" name="username" class="form-control" required autofocus >
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" name="password" class="form-control" required autofocus>
+                    </div>
+                    <input class="btn btn-success" type="submit" value="Sign In">
+                    <a href="Register" class="btn btn-info">Register</a>
+                </form>
                 <%}%>
             </div>
         </nav>
