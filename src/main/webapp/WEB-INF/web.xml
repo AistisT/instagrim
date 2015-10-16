@@ -88,6 +88,10 @@
         <servlet-name>Settings</servlet-name>
         <url-pattern>/Settings</url-pattern>
     </servlet-mapping>
+    <error-page>
+        <location>/error.jsp</location>
+    </error-page>
+    
     <session-config>
         <session-timeout>
             3000
@@ -101,6 +105,7 @@
             <url-pattern>/index.jsp</url-pattern>
             <url-pattern>/register.jsp</url-pattern>
             <url-pattern>/feed.jsp</url-pattern>
+            <url-pattern>/error.jsp</url-pattern>
             <url-pattern>/settings.jsp</url-pattern>
             <include-prelude>/header.jsp</include-prelude>
             <include-coda>/footer.jsp</include-coda>

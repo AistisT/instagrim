@@ -41,19 +41,19 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        try {
+        if (!checkIfExists(username))
+        {
             Session session = cluster.connect("instagrim");
-            PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?) IF NOT EXISTS");
+            PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
             BoundStatement boundStatement = new BoundStatement(ps);
             session.execute(boundStatement.bind(username, EncodedPassword, firstName, lastName, email));
             Date date = new Date();
-            ps = session.prepare("INSERT INTO userlist (user,date) Values(?,?) IF NOT EXISTS");
+            ps = session.prepare("INSERT INTO userlist (user,date) Values(?,?)");
             boundStatement = new BoundStatement(ps);
             session.execute(boundStatement.bind(username, date));
-        } catch (Exception e) {
-            System.out.println(username + " already exists " + e);
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean followUser(String username, String userToFollow, String command) {
@@ -211,6 +211,24 @@ public class User {
         session.execute(boundStatement.bind(firstName, lastName, email, username));
         return true;
     }
+    
+        public boolean checkIfExists(String username) {
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select login from userprofiles where login=?");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        String login="";
+        rs = session.execute(boundStatement.bind(username));
+        if (rs.isExhausted()) {
+        } else {
+            for (Row row : rs) {
+                login= row.getString("login");
+            }
+        }
+        return login.equals(username);
+    }
+    
+    
 
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;

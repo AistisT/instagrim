@@ -25,23 +25,23 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-left">
-                    <a class="navbar-brand" href="Index">InstaGrin</a>
+                    <a class="navbar-brand" href="../Index">InstaGrin</a>
                 </div>
                 <% String username = (String) session.getAttribute("Username");
                     if (username != null) {%>
                 <div class="navbar-right">                    
-                    <a class="navbar-brand" href="Home">Home</a>
-                    <a class="navbar-brand" href="Feed">Feed</a>
-                    <a class="navbar-brand" href="Settings">Settings</a>
+                    <a class="navbar-brand" href="../Home">Home</a>
+                    <a class="navbar-brand" href="../Feed">Feed</a>
+                    <a class="navbar-brand" href="../Settings">Settings</a>
                     <a class="navbar-brand" href="">                        </a>
                     <a class="navbar-brand" style="color: greenyellow"><%=username%></a>
                
-                <form class="navbar-form navbar-right"  method="POST" action="Logout">
+                <form class="navbar-form navbar-right"  method="POST" action="../Logout">
                     <input class="btn btn-warning" type="submit" value="Logout">
                 </form>
                 </div>
                 <% } else { %>
-                <form class="navbar-form navbar-right" method="POST" action="Login">
+                <form class="navbar-form navbar-right" method="POST" action="../Login">
                     <div class="form-group">
                         <input type="text" placeholder="Username" name="username" class="form-control" required autofocus >
                     </div>
