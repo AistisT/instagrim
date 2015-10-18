@@ -94,25 +94,29 @@ public class Image extends HttpServlet {
     }
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PicModel tm = new PicModel();
-        tm.setCluster(cluster);
-        java.util.LinkedList<Pic> pfPics = tm.getProfilePic(User);
-        request.setAttribute("ProfilePics", pfPics);
-        java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
-        request.setAttribute("Pics", lsPics);
-        
-        User user=new User();
+
+        User user = new User();
         user.setCluster(cluster);
-        ArrayList<String> userDetails=user.getUserinfo(User);
-        request.setAttribute("firstName", userDetails.get(0));
-        request.setAttribute("lastName", userDetails.get(1));
-        request.setAttribute("email", userDetails.get(2));
-        request.setAttribute("user", User);
-        
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
-        checkFollowing(request);
-        rd.forward(request, response);
+        if (user.checkIfExists(User)) {
+            PicModel tm = new PicModel();
+            tm.setCluster(cluster);
+            java.util.LinkedList<Pic> pfPics = tm.getProfilePic(User);
+            request.setAttribute("ProfilePics", pfPics);
+            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
+            request.setAttribute("Pics", lsPics);
+
+            ArrayList<String> userDetails = user.getUserinfo(User);
+            request.setAttribute("firstName", userDetails.get(0));
+            request.setAttribute("lastName", userDetails.get(1));
+            request.setAttribute("email", userDetails.get(2));
+            request.setAttribute("user", User);
+
+            RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
+            checkFollowing(request);
+            rd.forward(request, response);
+        } else {
+            response.sendError(404);
+        }
     }
 
     private void DisplayImage(int type, String Image, HttpServletResponse response, String tableName) throws ServletException, IOException {
@@ -144,6 +148,7 @@ public class Image extends HttpServlet {
             HttpSession session = request.getSession();
             String uri = (String) session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
+            // type checking to do
             if (i > 0) {
                 byte[] b = new byte[i + 1];
                 is.read(b);

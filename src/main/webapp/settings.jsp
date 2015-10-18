@@ -3,8 +3,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-         <div class="row">
-             <div class="col-md-2 border1"><br>
+    <div class="row">
+        <div class="col-md-2 border1"><br>
             <%  java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
                 if (pfPics == null) {%>
             <img style="max-width: 150px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif">
@@ -13,15 +13,20 @@
                 iterator = pfPics.iterator();
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();%>
-            <a href="/Instagrim/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrim/PThumb/<%=p.getSUUID()%>"></a><br/>
+            <a href="/Instagrin/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrin/PThumb/<%=p.getSUUID()%>"></a><br/>
                 <%}
                     } %>
             <h3>File Upload</h3>
-            <form method="POST" enctype="multipart/form-data" action="Image">
+            <form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/Image">
                 File to upload: <input type="file" name="upfile"><br/>
                 <br/>
                 <input type="submit" value="Press" onclick="<%session.setAttribute("origin", "settings");%>"> to upload the file!
             </form>
+            <div class="col-sm-12 text-center">
+                <% if (request.getAttribute("extensionFail") != null) { %>
+                <h4 class="text-danger">Only images (.jpg, .jpeg, .png) are allowed!</h4>
+                <%}%>
+            </div>
         </div>
         <form class="col-md-4 col-md-offset-2 " method="POST"  action="Settings">
             <div class="form-group">

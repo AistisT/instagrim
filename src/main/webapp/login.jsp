@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <div class="container">
-        <form class="col-sm-6 col-sm-offset-3"  method="POST"  action="Login">
+        <form class="col-sm-6 col-sm-offset-3"  method="POST"  action="${pageContext.request.contextPath}/Login">
             <div class="form-group">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-6">
@@ -29,6 +29,11 @@
                 <div class="col-sm-8">
                     <button class="btn btn-success btn-block" type="submit">Sign in</button>
                 </div>
+            </div>
+            <div class="col-sm-12 text-center">
+                <% if (request.getAttribute("fail") != null) { %>
+                <h4 class="text-danger">Wrong username or password, please try again.</h4>
+                <%}%>
             </div>
         </form>
 

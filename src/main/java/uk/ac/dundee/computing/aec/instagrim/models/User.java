@@ -218,6 +218,7 @@ public class User {
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
         String login="";
+        System.out.println("user= "+username+ " login="+login);
         rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
         } else {
@@ -225,6 +226,7 @@ public class User {
                 login= row.getString("login");
             }
         }
+        System.out.println("user= "+username+ " login="+login);
         return login.equals(username);
     }
     

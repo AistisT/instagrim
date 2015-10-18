@@ -17,7 +17,7 @@
                     iterator = lsPics.iterator();
                     while (iterator.hasNext()) {
                         Pic p = (Pic) iterator.next();%>
-                <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/></li>
+                <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <a href="/Instagrin/Image/<%=p.getSUUID()%>" ><img src="/Instagrin/Thumb/<%=p.getSUUID()%>"></a><br/></li>
                         <%}
                             }%>
             </ul>

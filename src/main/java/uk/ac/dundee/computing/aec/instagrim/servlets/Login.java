@@ -49,6 +49,7 @@ public class Login extends HttpServlet {
                 response.sendRedirect("Home");
             } else {
                 RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                request.setAttribute("fail", true);
                 rd.forward(request, response);
             }
         }

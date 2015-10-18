@@ -100,13 +100,7 @@
     <jsp-config>
         <jsp-property-group>
             <description>header and footer settings</description>
-            <url-pattern>/home.jsp</url-pattern>
-            <url-pattern>/login.jsp</url-pattern>
-            <url-pattern>/index.jsp</url-pattern>
-            <url-pattern>/register.jsp</url-pattern>
-            <url-pattern>/feed.jsp</url-pattern>
-            <url-pattern>/error.jsp</url-pattern>
-            <url-pattern>/settings.jsp</url-pattern>
+            <url-pattern>/*</url-pattern>
             <include-prelude>/header.jsp</include-prelude>
             <include-coda>/footer.jsp</include-coda>
         </jsp-property-group>

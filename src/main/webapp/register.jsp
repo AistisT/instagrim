@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html> 
     <div class="container">
-        <form class="col-sm-6 col-sm-offset-3"  method="POST"  action="Register">
+        <form class="col-sm-6 col-sm-offset-3"  method="POST"  action="${pageContext.request.contextPath}/Register">
             <div class="form-group">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-6">
@@ -45,7 +45,7 @@
                     <button class="btn btn-success btn-block" type="submit">Register</button>
                 </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-12 text-center">
                 <% if (request.getAttribute("exists") != null) { %>
                 <h4 class="text-danger">Username already exists, please choose another username.</h4>
                 <%}%>
