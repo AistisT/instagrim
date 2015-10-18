@@ -19,9 +19,9 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 public class Home extends HttpServlet {
 
     Cluster cluster = null;
-
+    
+    @Override
     public void init(ServletConfig config) throws ServletException {
-        // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
 
@@ -58,5 +58,4 @@ public class Home extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-
 }

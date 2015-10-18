@@ -19,10 +19,6 @@ import java.util.List;
 import java.util.ArrayList;
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 
-/**
- *
- * @author Administrator
- */
 public class User {
 
     Cluster cluster;
@@ -41,8 +37,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        if (!checkIfExists(username))
-        {
+        if (!checkIfExists(username)) {
             Session session = cluster.connect("instagrim");
             PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
             BoundStatement boundStatement = new BoundStatement(ps);
@@ -64,10 +59,13 @@ public class User {
         // secondary list, because java decided to be silly and wont allow adding new userToFollow to returned list..
         List<String> followArray = new ArrayList<>();
         followArray.addAll(followList);
-        if (command.equals("unfollow")) {
-            followArray.remove(userToFollow);
-        } else if (command.equals("follow")) {
-            followArray.add(userToFollow);
+        switch (command) {
+            case "unfollow":
+                followArray.remove(userToFollow);
+                break;
+            case "follow":
+                followArray.add(userToFollow);
+                break;
         }
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute(boundStatement.bind(followArray, username));
@@ -104,8 +102,8 @@ public class User {
                 followingList = row.getList("following", String.class);
             }
         }
-        for (int i = 0; i < followingList.size(); i++) {
-            if (followingList.get(i).equals(userToFollow)) {
+        for (String followingList1 : followingList) {
+            if (followingList1.equals(userToFollow)) {
                 result = true;
                 break;
             }
@@ -120,8 +118,7 @@ public class User {
         ResultSet rs;
         BoundStatement friends = new BoundStatement(ps);
         rs = session.execute(friends.bind(user));
-        if (!rs.isExhausted())//If there is a result
-        {
+        if (!rs.isExhausted()) {
             for (Row row : rs) {
                 followlist = row.getList(field, String.class);
             }
@@ -161,9 +158,7 @@ public class User {
         PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        username));
+        rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return false;
@@ -176,7 +171,6 @@ public class User {
                 }
             }
         }
-
         return false;
     }
 
@@ -186,9 +180,7 @@ public class User {
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
         ArrayList<String> info = new ArrayList<>();
-        rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        username));
+        rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
             for (int i = 0; i < 3; i++) {
                 info.add(null);
@@ -207,30 +199,28 @@ public class User {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET first_name=?, last_name=?, email=? where login=?");
         BoundStatement boundStatement = new BoundStatement(ps);
-        System.out.println(firstName+" "+lastName+" "+email+" "+username);
+        System.out.println(firstName + " " + lastName + " " + email + " " + username);
         session.execute(boundStatement.bind(firstName, lastName, email, username));
         return true;
     }
-    
-        public boolean checkIfExists(String username) {
+
+    public boolean checkIfExists(String username) {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select login from userprofiles where login=?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        String login="";
-        System.out.println("user= "+username+ " login="+login);
+        String login = "";
+        System.out.println("user= " + username + " login=" + login);
         rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
         } else {
             for (Row row : rs) {
-                login= row.getString("login");
+                login = row.getString("login");
             }
         }
-        System.out.println("user= "+username+ " login="+login);
+        System.out.println("user= " + username + " login=" + login);
         return login.equals(username);
     }
-    
-    
 
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;

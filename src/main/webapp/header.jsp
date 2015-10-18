@@ -2,12 +2,10 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-theme.css" />
-        <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
         <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>InstaGrin</title>
-    </head>
-    <body> 
         <script type="text/javascript">
             onload = function () {
                 var e = document.getElementById("refreshed");
@@ -18,6 +16,9 @@
                     location.reload(true);
                 }
             }</script>
+    </head>
+    <body> 
+
         <input type="hidden" id="refreshed" value="no">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">

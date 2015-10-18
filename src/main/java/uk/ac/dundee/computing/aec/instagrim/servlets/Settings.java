@@ -15,14 +15,11 @@ import javax.servlet.RequestDispatcher;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
-/**
- *
- * @author aististaraskevicius
- */
 public class Settings extends HttpServlet {
 
     Cluster cluster = null;
-
+    
+    @Override
     public void init(ServletConfig config) throws ServletException {
         cluster = CassandraHosts.getCluster();
     }

@@ -22,11 +22,11 @@
                 <br/>
                 <input type="submit" value="Press" onclick="<%session.setAttribute("origin", "settings");%>"> to upload the file!
             </form>
-            <div class="col-sm-12 text-center">
-                <% if (request.getAttribute("extensionFail") != null) { %>
-                <h4 class="text-danger">Only images (.jpg, .jpeg, .png) are allowed!</h4>
-                <%}%>
-            </div>
+                <% if (session.getAttribute("typeFail") != null) {
+                    if ((Boolean) session.getAttribute("typeFail") == true) {%>
+                <h4 class="text-danger">Only images of a types: jpg, jpeg and png are allowed!</h4>
+                <%}
+                }%>
         </div>
         <form class="col-md-4 col-md-offset-2 " method="POST"  action="Settings">
             <div class="form-group">
@@ -50,7 +50,7 @@
             <div class="form-group" name="lastNameGroup">
                 <label for="lastName" class="col-sm-4 control-label">Last Name  </label>
                 <div class="col-sm-8"> 
-                    <input type="text" name="lastName" class="form-control" value=<%=(String) request.getAttribute("lastName")%>     >
+                    <input type="text" name="lastName" class="form-control" value=<%=(String) request.getAttribute("lastName")%> >
                 </div>
             </div>
             <div class="form-group" name="submitGroup">

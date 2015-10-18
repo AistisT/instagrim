@@ -25,9 +25,6 @@ import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
-/**
- * Servlet implementation class Image
- */
 @WebServlet(name = "Image", urlPatterns = {
     "/Image",
     "/Image/*",
@@ -57,7 +54,8 @@ public class Image extends HttpServlet {
         CommandsMap.put("PThumb", 5);
 
     }
-
+    
+    @Override
     public void init(ServletConfig config) throws ServletException {
         cluster = CassandraHosts.getCluster();
     }
@@ -124,18 +122,16 @@ public class Image extends HttpServlet {
         tm.setCluster(cluster);
         Pic p = tm.getPic(type, java.util.UUID.fromString(Image), tableName);
 
-        OutputStream out = response.getOutputStream();
-
-        response.setContentType(p.getType());
-        response.setContentLength(p.getLength());
-        //out.write(Image);
-        InputStream is = new ByteArrayInputStream(p.getBytes());
-        BufferedInputStream input = new BufferedInputStream(is);
-        byte[] buffer = new byte[8192];
-        for (int length = 0; (length = input.read(buffer)) > 0;) {
-            out.write(buffer, 0, length);
+        try (OutputStream out = response.getOutputStream()) {
+            response.setContentType(p.getType());
+            response.setContentLength(p.getLength());
+            InputStream is = new ByteArrayInputStream(p.getBytes());
+            BufferedInputStream input = new BufferedInputStream(is);
+            byte[] buffer = new byte[8192];
+            for (int length = 0; (length = input.read(buffer)) > 0;) {
+                out.write(buffer, 0, length);
+            }
         }
-        out.close();
     }
 
     @Override
@@ -148,18 +144,23 @@ public class Image extends HttpServlet {
             HttpSession session = request.getSession();
             String uri = (String) session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
-            // type checking to do
-            if (i > 0) {
-                byte[] b = new byte[i + 1];
-                is.read(b);
-                PicModel tm = new PicModel();
-                tm.setCluster(cluster);
-                if (uri.equalsIgnoreCase("Settings")) {
-                    tm.insertProfilePic(b, type, filename, username);
-                } else {
-                    tm.insertPic(b, type, filename, username);
+            System.out.println("type= " + type);
+            if (type.equalsIgnoreCase("image/jpeg") || type.equalsIgnoreCase("image/png") || type.equalsIgnoreCase("image/jpg")) {
+                if (i > 0) {
+                    byte[] b = new byte[i + 1];
+                    is.read(b);
+                    PicModel tm = new PicModel();
+                    tm.setCluster(cluster);
+                    if (uri.equalsIgnoreCase("Settings")) {
+                        tm.insertProfilePic(b, type, filename, username);
+                    } else {
+                        tm.insertPic(b, type, filename, username);
+                    }
+                    session.setAttribute("typeFail", false);
+                    is.close();
                 }
-                is.close();
+            } else {
+                session.setAttribute("typeFail", true);
             }
             if (uri.equalsIgnoreCase("Settings")) {
                 response.sendRedirect("Settings");
@@ -168,7 +169,6 @@ public class Image extends HttpServlet {
                 response.sendRedirect("Home");
             }
         }
-
     }
 
     protected void checkFollowing(HttpServletRequest request) {

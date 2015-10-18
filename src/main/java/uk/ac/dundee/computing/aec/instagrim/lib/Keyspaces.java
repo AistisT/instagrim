@@ -64,81 +64,71 @@ public final class Keyspaces {
                     + " date timestamp,"
                     + " PRIMARY KEY (user, date)"
                     + ") WITH CLUSTERING ORDER BY (date DESC);";
-            Session session = c.connect();
-            try {
-                PreparedStatement statement = session
-                        .prepare(createkeyspace);
-                BoundStatement boundStatement = new BoundStatement(
-                        statement);
-                ResultSet rs = session
-                        .execute(boundStatement);
-                System.out.println("created instagrim ");
-            } catch (Exception et) {
-                System.out.println("Can't create instagrim " + et);
+            try (Session session = c.connect()) {
+                try {
+                    PreparedStatement statement = session
+                            .prepare(createkeyspace);
+                    BoundStatement boundStatement = new BoundStatement(
+                            statement);
+                    ResultSet rs = session
+                            .execute(boundStatement);
+                    System.out.println("created instagrim ");
+                } catch (Exception et) {
+                    System.out.println("Can't create instagrim " + et);
+                }
+                //now add some column families
+                System.out.println("" + CreateUserList);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(CreateUserList);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create userlist table " + et);
+                }
+                System.out.println("" + CreatePicProfilePic);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(CreatePicProfilePic);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create profilePic table " + et);
+                }
+                System.out.println("" + CreateIndexOnPicTable);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnPicTable);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create indexonpic index " + et);
+                }
+                System.out.println("" + CreateIndexOnProfilePicTable);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnProfilePicTable);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create profilePic index " + et);
+                }
+                System.out.println("" + CreatePicTable);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create pic table " + et);
+                }
+                System.out.println("" + Createuserpiclist);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(Createuserpiclist);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create user pic list table " + et);
+                }
+                System.out.println("" + CreateUserProfile);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(CreateUserProfile);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create user Profile " + et);
+                }
             }
-
-            //now add some column families 
-            System.out.println("" + CreateUserList);
-
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreateUserList);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create userlist table " + et);
-            }
-
-            System.out.println("" + CreatePicProfilePic);
-
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreatePicProfilePic);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create profilePic table " + et);
-            }
-
-            System.out.println("" + CreateIndexOnPicTable);
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnPicTable);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create indexonpic index " + et);
-            }
-            System.out.println("" + CreateIndexOnProfilePicTable);
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnProfilePicTable);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create profilePic index " + et);
-            }
-
-            System.out.println("" + CreatePicTable);
-
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreatePicTable);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create pic table " + et);
-            }
-            System.out.println("" + Createuserpiclist);
-
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(Createuserpiclist);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create user pic list table " + et);
-            }
-            System.out.println("" + CreateUserProfile);
-            try {
-                SimpleStatement cqlQuery = new SimpleStatement(CreateUserProfile);
-                session.execute(cqlQuery);
-            } catch (Exception et) {
-                System.out.println("Can't create user Profile " + et);
-            }
-            session.close();
-
         } catch (Exception et) {
             System.out.println("Other keyspace or coulm definition error" + et);
         }
-
     }
 }

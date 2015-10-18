@@ -27,23 +27,18 @@
                     <label  name="email" class="form-control-label"><%=(String) request.getAttribute("firstName")%> <%=(String) request.getAttribute("lastName")%></label>
                 </div>
             </div>
-
             <% if ((String) session.getAttribute("Username") != null) {
                     if (!((String) session.getAttribute("Username")).equalsIgnoreCase((String) request.getAttribute("user"))) {
                         boolean following = (boolean) session.getAttribute("Following");
                         if (following) {
                             session.setAttribute("Follow", false); %>
             <form method="POST" action="${pageContext.request.contextPath}/Following">            
-                <button class="btn btn-success" type="submit" name="userToFollow">
-                    <span class="glyphicon glyphicon-ok" style="vertical-align:middle">Un-follow</span> 
-                </button>
+                <button class="btn btn-success" type="submit" name="userToFollow">Un-follow</button>
             </form>
             <% } else {
                 session.setAttribute("Follow", true); %>                
             <form method="POST" action="${pageContext.request.contextPath}/Following">
-                <button class="btn btn-primary" type="submit" name="userToFollow">
-                    <span class="glyphicon glyphicon-user" style="vertical-align:middle">Follow</span> 
-                </button>
+                <button class="btn btn-primary" type="submit" name="userToFollow">Follow</button>
             </form>
             <%}
                     }
@@ -53,16 +48,13 @@
             <div class="container" style="padding-left: 0px">
                 <ul class="row">
                     <% java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-                        if (lsPics == null) {
-                    %>
+                        if (lsPics == null) {%>
                     <p>No pictures uploaded yet.</p>
-                    <%
-                    } else {
+                    <%} else {
                         Iterator<Pic> iterator;
                         iterator = lsPics.iterator();
                         while (iterator.hasNext()) {
-                            Pic p = (Pic) iterator.next();
-                    %>
+                            Pic p = (Pic) iterator.next();%>
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> <a href="/Instagrin/Image/<%=p.getSUUID()%>" ><img src="/Instagrin/Thumb/<%=p.getSUUID()%>"></a><br/></li>
                             <%}
                                 }%>
