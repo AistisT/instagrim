@@ -4,16 +4,10 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <script type="text/javascript">
-            function showModal(){
-                $("#myModal").modal();
-            }
-        </script>
-        
         <h1 class="text-center text-success">Your Pictures</h1><br/>
         <div class="row">
             <div class="col-md-2 border1">
-                <form id="uploadFile" method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/Image" >
+                <form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/Image" >
                     <h3>Picture upload</h3>
                     Picture to upload: <input id="fileInput" type="file" accept=".jpg,.jpeg,.png" name="upfile"><br/>
                     <br/>
@@ -36,8 +30,13 @@
                             iterator = lsPics.iterator();
                             while (iterator.hasNext()) {
                                 Pic p = (Pic) iterator.next();%>
-                                <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <img onclick="showModal()" src="/Instagrin/Thumb/<%=p.getSUUID()%>"></li>
-                                <%}
+                        <form method="POST" action="${pageContext.request.contextPath}/Delete"> 
+                            <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> 
+                                <figure> <a href="/Instagrin/Image/<%=p.getSUUID()%>"> <img src="/Instagrin/Thumb/<%=p.getSUUID()%>"></a>
+                                    <figcaption> <input type="hidden" name="picId" value="<%=p.getSUUID()%>" >
+                                        <Button class="btn icon-btn btn-danger" type="submit" onclick="javascript:return confirm('Are you sure you want to delete this picture?')">Delete</Button>
+                                    </figcaption></figure></li></form>
+                                    <% }
                                     }%>
                     </ul>           
                 </div>

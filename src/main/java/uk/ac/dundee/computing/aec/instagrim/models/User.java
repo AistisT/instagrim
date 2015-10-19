@@ -56,7 +56,6 @@ public class User {
         PreparedStatement ps = session.prepare("update userprofiles set following=? where login =?");
         List<String> followList;
         followList = getFollow(username, "following");
-        // secondary list, because java decided to be silly and wont allow adding new userToFollow to returned list..
         List<String> followArray = new ArrayList<>();
         followArray.addAll(followList);
         switch (command) {
@@ -67,18 +66,21 @@ public class User {
                 followArray.add(userToFollow);
                 break;
         }
+        
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute(boundStatement.bind(followArray, username));
         ps = session.prepare("update userprofiles set followers=? where login =?");
-        //Java is being silly again...
-        List<String> followList1;
-        followList1 = getFollow(userToFollow, "followers");
+        List<String> followersList;
+        followersList = getFollow(userToFollow, "followers");
         followArray.clear();
-        followArray.addAll(followList1);
-        if (command.equals("unfollow")) {
-            followArray.remove(userToFollow);
-        } else if (command.equals("follow")) {
-            followArray.add(userToFollow);
+        followArray.addAll(followersList);
+        switch (command) {
+            case "unfollow":
+                followArray.remove(username);
+                break;
+            case "follow":
+                followArray.add(username);
+                break;
         }
         boundStatement = new BoundStatement(ps);
         session.execute(boundStatement.bind(followArray, userToFollow));

@@ -29,7 +29,6 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Image",
     "/Image/*",
     "/Thumb/*",
-    "/Images",
     "/ProfilePic/",
     "/PThumb/",
     "/Images/*"
@@ -42,9 +41,7 @@ public class Image extends HttpServlet {
     private Cluster cluster;
     private HashMap CommandsMap = new HashMap();
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public Image() {
         super();
         CommandsMap.put("Image", 1);
@@ -144,7 +141,6 @@ public class Image extends HttpServlet {
             HttpSession session = request.getSession();
             String uri = (String) session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
-            System.out.println("type= " + type);
             if (type.equalsIgnoreCase("image/jpeg") || type.equalsIgnoreCase("image/png") || type.equalsIgnoreCase("image/jpg")) {
                 if (i > 0) {
                     byte[] b = new byte[i + 1];
@@ -179,7 +175,6 @@ public class Image extends HttpServlet {
             if (args.length == 3) {
                 User user = new User();
                 user.setCluster(cluster);
-                System.out.println(args[2]);
                 boolean following = user.checkFollowing(username, args[2]);
                 session.setAttribute("Following", following);
                 session.setAttribute(("userToFollow"), args[2]);

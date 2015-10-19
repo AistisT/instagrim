@@ -30,6 +30,7 @@
                 <div class="navbar-right">                    
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/Home">Home</a>
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/Feed">Feed</a>
+                    <a class="navbar-brand" href="${pageContext.request.contextPath}/Followers">Followers</a>
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/Settings">Settings</a>
                     <a class="navbar-brand" href="">                        </a>
                     <a class="navbar-brand" style="color: greenyellow"><%=username%></a>

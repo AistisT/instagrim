@@ -5,7 +5,6 @@
 <html lang="en">
     <body>
         <div class="container">
-            <div class="container">
                 <h1 class="text-center text-success">Newest Users</h1><br/>
                 <ul class="row">
                     <%  java.util.LinkedList<String> userList = (java.util.LinkedList<String>) request.getAttribute("userList");
@@ -34,7 +33,6 @@
                                         <%}
                                         }%>
                 </ul>           
-            </div>
             <h1 class="text-center text-primary">Latest Images</h1><br/>
             <ul class="row">
                 <%java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");

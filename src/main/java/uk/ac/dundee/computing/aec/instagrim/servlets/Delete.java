@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 
-public class Following extends HttpServlet {
+public class Delete extends HttpServlet {
 
     Cluster cluster = null;
 
@@ -20,33 +20,26 @@ public class Following extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        String username = (String) session.getAttribute("Username");
-        if (username != null) {
-            String userToFollow = (String) session.getAttribute("userToFollow");
-            User user = new User();
-            user.setCluster(cluster);
-            if ((Boolean) session.getAttribute("Follow")) {
-                user.followUser(username, userToFollow, "follow");
-            } else {
-                user.followUser(username, userToFollow, "unfollow");
-            }
-        }
-        response.sendRedirect("Followers");
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("Username");
+        if (username != null) {
+            response.sendRedirect("Home");
+        } else {
+            response.sendRedirect("Index");
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String picid = (String) request.getParameter("picId");
+        PicModel pm = new PicModel();
+        pm.setCluster(cluster);
+        pm.deletePicture(picid);
+        response.sendRedirect("Home");
     }
 
     @Override

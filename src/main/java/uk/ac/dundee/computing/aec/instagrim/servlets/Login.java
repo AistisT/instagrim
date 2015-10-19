@@ -35,7 +35,6 @@ public class Login extends HttpServlet {
             User us = new User();
             us.setCluster(cluster);
             boolean isValid = us.IsValidUser(username, password);
-            System.out.println("Session in servlet " + session);
             if (isValid) {
                 session.setAttribute("Username", username);
                 response.sendRedirect("Home");

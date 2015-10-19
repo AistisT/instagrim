@@ -49,8 +49,8 @@ public class Index extends HttpServlet {
         request.setAttribute("userList", userList);
         LinkedList<LinkedList> profilePics = new LinkedList<>();
         if (userList != null) {
-            for (int i = 0; i < userList.size(); i++) {
-                profilePics.add(tm.getProfilePic(userList.get(i)));
+            for (String userList1 : userList) {
+                profilePics.add(tm.getProfilePic(userList1));
             }
         }
         request.setAttribute("ProfilePicsList", profilePics);

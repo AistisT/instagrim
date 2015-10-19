@@ -42,6 +42,14 @@
         <servlet-name>Settings</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Settings</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Delete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Followers</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Followers</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -50,7 +58,6 @@
     <servlet-mapping>
         <servlet-name>Image</servlet-name>
         <url-pattern>/Image/*</url-pattern>
-        <url-pattern>/Images</url-pattern>
         <url-pattern>/Image</url-pattern>
         <url-pattern>/Thumb/*</url-pattern>
         <url-pattern>/Images/*</url-pattern>
@@ -88,10 +95,17 @@
         <servlet-name>Settings</servlet-name>
         <url-pattern>/Settings</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Followers</servlet-name>
+        <url-pattern>/Followers</url-pattern>
+    </servlet-mapping>
     <error-page>
         <location>/error.jsp</location>
-    </error-page>
-    
+    </error-page> 
     <session-config>
         <session-timeout>
             3000

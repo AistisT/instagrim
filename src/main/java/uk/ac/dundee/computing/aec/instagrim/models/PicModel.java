@@ -72,7 +72,6 @@ public class PicModel {
             java.util.UUID currentPicid = getProfilePicId(user);
             System.out.println(user);
             if (currentPicid == null) {
-                System.out.println("inside");
                 PreparedStatement psInsertPic = session.prepare("insert into ProfilePics ( picid, image,thumb,processed, user,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?)");
                 BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
                 session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, length, thumblength, processedlength, type, name));
@@ -123,7 +122,6 @@ public class PicModel {
                     System.out.println("UUID" + UUID.toString());
                     pic.setUUID(UUID);
                     Pics.add(pic);
-                    System.out.println("inside");
                 }
             }
         }
@@ -143,7 +141,7 @@ public class PicModel {
             }
             return imageInByte;
         } catch (IOException et) {
-            System.out.println("Error= "+et);
+            System.out.println("Error= " + et);
         }
         return null;
     }
@@ -161,7 +159,7 @@ public class PicModel {
             }
             return imageInByte;
         } catch (IOException et) {
-            System.out.println("Error= "+et);
+            System.out.println("Error= " + et);
         }
         return null;
     }
@@ -221,6 +219,32 @@ public class PicModel {
             }
         }
         return Pics;
+    }
+
+    public void deletePicture(String picid) {
+        try (Session session = cluster.connect("instagrim")) {
+            PreparedStatement ps = session.prepare("delete from Pics where picid=?");
+
+            BoundStatement boundStatement = new BoundStatement(ps);
+
+            session.execute(boundStatement.bind(java.util.UUID.fromString(picid)));
+            ResultSet rs = null;
+            PreparedStatement ul = session.prepare("select * from userpiclist where picid=?");
+            BoundStatement boundStatementUl = new BoundStatement(ul);
+            rs = session.execute(boundStatementUl.bind(java.util.UUID.fromString(picid)));
+            String user = "";
+            Date date = new Date();
+            if (rs.isExhausted()) {
+            } else {
+                for (Row row : rs) {
+                    user = row.getString("user");
+                    date = row.getDate("pic_added");
+                }
+            }
+            PreparedStatement usl = session.prepare("delete from userpiclist where user=? and pic_added=?");
+            BoundStatement boundStatementUsl = new BoundStatement(usl);
+            session.execute(boundStatementUsl.bind(user, date));
+        }
     }
 
     public LinkedList<Pic> getPicsFeed(String username) {
