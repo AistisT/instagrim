@@ -38,7 +38,7 @@ public class User {
             return false;
         }
         if (!checkIfExists(username)) {
-            Session session = cluster.connect("instagrim");
+            Session session = cluster.connect("instagrinAistis");
             PreparedStatement ps = session.prepare("INSERT INTO userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
             BoundStatement boundStatement = new BoundStatement(ps);
             session.execute(boundStatement.bind(username, EncodedPassword, firstName, lastName, email));
@@ -52,7 +52,7 @@ public class User {
     }
 
     public boolean followUser(String username, String userToFollow, String command) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("update userprofiles set following=? where login =?");
         List<String> followList;
         followList = getFollow(username, "following");
@@ -88,7 +88,7 @@ public class User {
     }
 
     public boolean checkFollowing(String user, String userToFollow) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select following from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -115,7 +115,7 @@ public class User {
 
     public List<String> getFollow(String user, String field) {
         List<String> followlist = new LinkedList<>();
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select " + field + " from userprofiles where login =?");
         ResultSet rs;
         BoundStatement friends = new BoundStatement(ps);
@@ -130,7 +130,7 @@ public class User {
 
     public LinkedList getUserList() {
         LinkedList<String> userList = new LinkedList<>();
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select user from userlist LIMIT 20");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -156,7 +156,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -177,7 +177,7 @@ public class User {
     }
 
     public ArrayList getUserinfo(String username) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select first_name,last_name,email from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -198,7 +198,7 @@ public class User {
     }
 
     public boolean updateDetails(String username, String firstName, String lastName, String email) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET first_name=?, last_name=?, email=? where login=?");
         BoundStatement boundStatement = new BoundStatement(ps);
         System.out.println(firstName + " " + lastName + " " + email + " " + username);
@@ -207,7 +207,7 @@ public class User {
     }
 
     public boolean checkIfExists(String username) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select login from userprofiles where login=?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);

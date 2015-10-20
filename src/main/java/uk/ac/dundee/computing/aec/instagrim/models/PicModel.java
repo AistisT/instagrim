@@ -46,7 +46,7 @@ public class PicModel {
         byte[] processedb = picdecolour(types[1], b);
         ByteBuffer processedbuf = ByteBuffer.wrap(processedb);
         int processedlength = processedb.length;
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement psInsertPic = session.prepare("insert into pics ( picid, image,thumb,processed, user, date,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?,?)");
             PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added) values(?,?,?)");
             BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
@@ -68,7 +68,7 @@ public class PicModel {
         byte[] processedb = picdecolour(types[1], b);
         ByteBuffer processedbuf = ByteBuffer.wrap(processedb);
         int processedlength = processedb.length;
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             java.util.UUID currentPicid = getProfilePicId(user);
             System.out.println(user);
             if (currentPicid == null) {
@@ -88,7 +88,7 @@ public class PicModel {
     }
 
     public java.util.UUID getProfilePicId(String username) {
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select profilepic from userprofiles where login =?");
         ResultSet rs = null;
         System.out.println(username);
@@ -107,7 +107,7 @@ public class PicModel {
     public LinkedList<Pic> getProfilePic(String User) {
         LinkedList<Pic> Pics = new LinkedList<>();
         System.out.println(User);
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("select picid from ProfilePics where user =?");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
@@ -177,7 +177,7 @@ public class PicModel {
 
     public LinkedList<Pic> getPicsForUser(String User) {
         LinkedList<Pic> Pics = new LinkedList<>();
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
@@ -200,7 +200,7 @@ public class PicModel {
 
     public LinkedList<Pic> getPics() {
         LinkedList<Pic> Pics = new LinkedList<>();
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("select picid from Pics LIMIT 20");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
@@ -222,7 +222,7 @@ public class PicModel {
     }
 
     public void deletePicture(String picid) {
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("delete from Pics where picid=?");
 
             BoundStatement boundStatement = new BoundStatement(ps);
@@ -254,7 +254,7 @@ public class PicModel {
         followList = user.getFollow(username, "following");
         Map<Date, Pic> map = new TreeMap<>();
         LinkedList<Pic> Pics;
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             for (String followList1 : followList) {
                 PreparedStatement ps = session.prepare("select picid,date from Pics where user=? LIMIT 20");
                 ResultSet rs = null;
@@ -286,7 +286,7 @@ public class PicModel {
         ByteBuffer bImage;
         String type;
         int length;
-        try (Session session = cluster.connect("instagrim")) {
+        try (Session session = cluster.connect("instagrinAistis")) {
             bImage = null;
             type = null;
             length = 0;

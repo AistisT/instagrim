@@ -11,8 +11,8 @@ public final class Keyspaces {
     public static void SetUpKeySpaces(Cluster c) {
         try {
             //Add some keyspaces here
-            String createkeyspace = "create keyspace if not exists instagrim  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
-            String CreatePicTable = "CREATE TABLE if not exists instagrim.Pics ("
+            String createkeyspace = "create keyspace if not exists instagrinAistis  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
+            String CreatePicTable = "CREATE TABLE if not exists instagrinAistis.Pics ("
                     + " user varchar,"
                     + " picid uuid, "
                     + " date timestamp,"
@@ -27,7 +27,7 @@ public final class Keyspaces {
                     + " name  varchar,"
                     + " PRIMARY KEY (picid,date)"
                     + ") WITH CLUSTERING ORDER BY (date DESC);";
-            String CreatePicProfilePic = "CREATE TABLE if not exists instagrim.ProfilePics ("
+            String CreatePicProfilePic = "CREATE TABLE if not exists instagrinAistis.ProfilePics ("
                     + " user varchar,"
                     + " picid uuid, "
                     + " title varchar,"
@@ -42,17 +42,17 @@ public final class Keyspaces {
                     + " PRIMARY KEY (picid)"
                     + ");";
             
-            String CreateIndexOnPicTable = "Create INDEX userfeed ON instagrim.Pics (user)";
-            String CreateIndexOnProfilePicTable = "Create INDEX userProfile ON instagrim.ProfilePics (user)";
-            String CreateIndexOnUserPicList = "Create INDEX userlistPicid ON instagrim.userpiclist (picid)";
+            String CreateIndexOnPicTable = "Create INDEX userfeed ON instagrinAistis.Pics (user)";
+            String CreateIndexOnProfilePicTable = "Create INDEX userProfile ON instagrinAistis.ProfilePics (user)";
+            String CreateIndexOnUserPicList = "Create INDEX userlistPicid ON instagrinAistis.userpiclist (picid)";
             
-            String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
+            String Createuserpiclist = "CREATE TABLE if not exists instagrinAistis.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
                     + "pic_added timestamp,\n"
                     + "PRIMARY KEY (user,pic_added)\n"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
-            String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
+            String CreateUserProfile = "CREATE TABLE if not exists instagrinAistis.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
                     + "      password text,\n"
                     + "      first_name text,\n"
@@ -62,7 +62,7 @@ public final class Keyspaces {
                     + "      profilepic uuid,\n"
                     + "      email text,\n"
                     + "  );";
-            String CreateUserList = "CREATE TABLE if not exists instagrim.userlist ("
+            String CreateUserList = "CREATE TABLE if not exists instagrinAistis.userlist ("
                     + " user varchar,"
                     + " date timestamp,"
                     + " PRIMARY KEY (user, date)"

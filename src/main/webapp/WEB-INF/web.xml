@@ -78,6 +78,8 @@
         <servlet-name>Index</servlet-name>
         <url-pattern>/Welcome</url-pattern>
         <url-pattern>/Index</url-pattern>
+        <url-pattern>/</url-pattern>
+         <url-pattern></url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
