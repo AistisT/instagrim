@@ -13,7 +13,7 @@
                 iterator = pfPics.iterator();
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();%>
-            <a href="/Instagrin/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrin/PThumb/<%=p.getSUUID()%>"></a><br/>
+            <a href="${pageContext.request.contextPath}/ProfilePic/<%=p.getSUUID()%>" ><img src="${pageContext.request.contextPath}/PThumb/<%=p.getSUUID()%>"></a><br/>
                 <%}
                     } %>
             <h3>File Upload</h3>

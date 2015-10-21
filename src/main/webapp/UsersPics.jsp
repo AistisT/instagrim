@@ -14,7 +14,7 @@
                 iterator = pfPics.iterator();
                 while (iterator.hasNext()) {
                     Pic p = (Pic) iterator.next();%>
-            <a href="/Instagrin/ProfilePic/<%=p.getSUUID()%>" ><img src="/Instagrin/PThumb/<%=p.getSUUID()%>"></a><br><br>    
+            <a href="${pageContext.request.contextPath}/ProfilePic/<%=p.getSUUID()%>" ><img src="${pageContext.request.contextPath}/PThumb/<%=p.getSUUID()%>"></a><br><br>    
                 <%}
                     }%>
             <div class="form-group" name="emailGroup">
@@ -55,7 +55,7 @@
                         iterator = lsPics.iterator();
                         while (iterator.hasNext()) {
                             Pic p = (Pic) iterator.next();%>
-                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> <a href="/Instagrin/Image/<%=p.getSUUID()%>" ><img src="/Instagrin/Thumb/<%=p.getSUUID()%>"></a><br/></li>
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> <a href="${pageContext.request.contextPath}/Image/<%=p.getSUUID()%>" ><img src="${pageContext.request.contextPath}/Thumb/<%=p.getSUUID()%>"></a><br/></li>
                             <%}
                                 }%>
                 </ul>

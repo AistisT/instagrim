@@ -23,7 +23,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-left">
-                    <a class="navbar-brand" href="${pageContext.request.contextPath}/Index">InstaGrin</a>
+                    <a class="navbar-brand" href="${pageContext.request.contextPath}">InstaGrin</a>
                 </div>
                 <% String username = (String) session.getAttribute("Username");
                     if (username != null) {%>

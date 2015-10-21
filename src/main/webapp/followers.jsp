@@ -21,16 +21,16 @@
                         String userl = (String) iterator.next();
                         LinkedList list = (LinkedList) literator.next();
                         if (list == null) {%>
-                <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure> <a href="/Instagrin/Images/<%=userl%>" > <img style="max-width: 80px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif"></a>
+                <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure> <a href="${pageContext.request.contextPath}/Images/<%=userl%>" > <img style="max-width: 80px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif"></a>
                             <%} else {
                                 Iterator<Pic> iterator1;
                                 iterator1 = list.iterator();
                                 while (iterator1.hasNext()) {
                                     Pic p = (Pic) iterator1.next();%>
-                        <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure><a href="/Instagrin/Images/<%=userl%>" ><img style="max-width: 80px" src="/Instagrin/PThumb/<%=p.getSUUID()%>"></a>
+                        <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure><a href="${pageContext.request.contextPath}/Images/<%=userl%>" ><img style="max-width: 80px" src="${pageContext.request.contextPath}/PThumb/<%=p.getSUUID()%>"></a>
                                     <%}
                                         }%>
-                                <figcaption><a href="/Instagrin/Images/<%=userl%>"><%=userl%></a></figcaption></figure></li>
+                                <figcaption><a href="${pageContext.request.contextPath}/Images/<%=userl%>"><%=userl%></a></figcaption></figure></li>
                                     <%}
                                         }%>
             </ul>
@@ -49,16 +49,16 @@
                         String userl = (String) iterator.next();
                         LinkedList list = (LinkedList) literator.next();
                         if (list == null) {%>
-                <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure> <a href="/Instagrin/Images/<%=userl%>" > <img style="max-width: 80px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif"></a>
+                <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure> <a href="${pageContext.request.contextPath}/Images/<%=userl%>" > <img style="max-width: 80px" src="http://paulskirbe.com/blog/wp-content/uploads/2012/12/empty_profile_picture_5.gif"></a>
                             <%} else {
                                 Iterator<Pic> iterator1;
                                 iterator1 = list.iterator();
                                 while (iterator1.hasNext()) {
                                     Pic p = (Pic) iterator1.next();%>
-                        <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure><a href="/Instagrin/Images/<%=userl%>" ><img style="max-width: 80px" src="/Instagrin/PThumb/<%=p.getSUUID()%>"></a>
+                        <li class="col-lg-1 col-md-1 col-sm-2 col-xs-3">  <figure><a href="${pageContext.request.contextPath}/Images/<%=userl%>" ><img style="max-width: 80px" src="${pageContext.request.contextPath}/PThumb/<%=p.getSUUID()%>"></a>
                                     <%}
                                         }%>
-                                <figcaption><a href="/Instagrin/Images/<%=userl%>"><%=userl%></a></figcaption></figure></li>
+                                <figcaption><a href="${pageContext.request.contextPath}/Images/<%=userl%>"><%=userl%></a></figcaption></figure></li>
                                     <%}
                                         }%>
             </ul>  

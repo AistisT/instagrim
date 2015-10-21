@@ -14,7 +14,10 @@ import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
-public class Index extends HttpServlet {
+
+
+public class Default extends HttpServlet {
+    
 
     Cluster cluster = null;
 

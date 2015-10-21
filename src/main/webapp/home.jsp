@@ -32,7 +32,7 @@
                                 Pic p = (Pic) iterator.next();%>
                         <form method="POST" action="${pageContext.request.contextPath}/Delete"> 
                             <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> 
-                                <figure> <a href="/Instagrin/Image/<%=p.getSUUID()%>"> <img src="/Instagrin/Thumb/<%=p.getSUUID()%>"></a>
+                                <figure> <a href="${pageContext.request.contextPath}/Image/<%=p.getSUUID()%>"> <img src="${pageContext.request.contextPath}/Thumb/<%=p.getSUUID()%>"></a>
                                     <figcaption> <input type="hidden" name="picId" value="<%=p.getSUUID()%>" >
                                         <Button class="btn icon-btn btn-danger" type="submit" onclick="javascript:return confirm('Are you sure you want to delete this picture?')">Delete</Button>
                                     </figcaption></figure></li></form>

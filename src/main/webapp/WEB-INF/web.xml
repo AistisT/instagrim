@@ -23,8 +23,9 @@
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Register</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Index</servlet-name>
-        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Index</servlet-class>
+        <servlet-name>Default</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Default</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>Logout</servlet-name>
@@ -75,11 +76,9 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Index</servlet-name>
-        <url-pattern>/Welcome</url-pattern>
+        <servlet-name>Default</servlet-name>
+        <url-pattern></url-pattern>
         <url-pattern>/Index</url-pattern>
-        <url-pattern>/</url-pattern>
-         <url-pattern></url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
@@ -107,10 +106,10 @@
     </servlet-mapping>
     <error-page>
         <location>/error.jsp</location>
-    </error-page> 
+    </error-page>
     <session-config>
         <session-timeout>
-            3000
+            30
         </session-timeout>
     </session-config>
     <jsp-config>
