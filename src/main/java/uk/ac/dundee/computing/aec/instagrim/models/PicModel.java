@@ -201,7 +201,7 @@ public class PicModel {
     public LinkedList<Pic> getPics() {
         LinkedList<Pic> Pics = new LinkedList<>();
         try (Session session = cluster.connect("instagrinAistis")) {
-            PreparedStatement ps = session.prepare("select picid from Pics LIMIT 20");
+            PreparedStatement ps = session.prepare("select picid,date from Pics LIMIT 20");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute(boundStatement.bind());
@@ -212,11 +212,13 @@ public class PicModel {
                 for (Row row : rs) {
                     Pic pic = new Pic();
                     java.util.UUID UUID = row.getUUID("picid");
-                    System.out.println("UUID" + UUID.toString());
+                    Date date=row.getDate("date");
                     pic.setUUID(UUID);
+                    pic.setDate(date);
                     Pics.add(pic);
                 }
             }
+             Collections.sort(Pics,Collections.reverseOrder());
         }
         return Pics;
     }

@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
@@ -40,7 +41,8 @@ public class Default extends HttpServlet {
 
     protected void doProcess(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession session=request.getSession(true);
+        System.out.println("session :"+session);
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
         LinkedList<Pic> lsPics = tm.getPics();

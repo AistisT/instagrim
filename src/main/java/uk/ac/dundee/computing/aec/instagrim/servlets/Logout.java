@@ -12,7 +12,7 @@ public class Logout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("");
+        response.sendRedirect("/");
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Logout extends HttpServlet {
         HttpSession session = request.getSession();
         session.invalidate();
 
-        response.sendRedirect("");
+        response.sendRedirect("/");
     }
 
     @Override

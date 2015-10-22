@@ -28,7 +28,7 @@ public class Delete extends HttpServlet {
         if (username != null) {
             response.sendRedirect("Home");
         } else {
-            response.sendRedirect("");
+            response.sendRedirect("/");
         }
     }
 
