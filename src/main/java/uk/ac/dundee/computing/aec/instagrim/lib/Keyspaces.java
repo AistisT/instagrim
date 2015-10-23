@@ -41,17 +41,25 @@ public final class Keyspaces {
                     + " name  varchar,"
                     + " PRIMARY KEY (picid)"
                     + ");";
-            
+
             String CreateIndexOnPicTable = "Create INDEX userfeed ON instagrinAistis.Pics (user)";
             String CreateIndexOnProfilePicTable = "Create INDEX userProfile ON instagrinAistis.ProfilePics (user)";
             String CreateIndexOnUserPicList = "Create INDEX userlistPicid ON instagrinAistis.userpiclist (picid)";
-            
+
             String Createuserpiclist = "CREATE TABLE if not exists instagrinAistis.userpiclist (\n"
                     + "picid uuid,\n"
                     + "user varchar,\n"
                     + "pic_added timestamp,\n"
                     + "PRIMARY KEY (user,pic_added)\n"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
+
+            String Createlikeslist = "CREATE TABLE if not exists instagrinAistis.likeslist (\n"
+                    + "picid uuid,\n"
+                    + "like list<text>,\n"
+                    + "dislike list<text>,\n"
+                    + "PRIMARY KEY (picid)\n"
+                    + ");";
+
             String CreateUserProfile = "CREATE TABLE if not exists instagrinAistis.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
                     + "      password text,\n"
@@ -87,6 +95,15 @@ public final class Keyspaces {
                 } catch (Exception et) {
                     System.out.println("Can't create userlist table " + et);
                 }
+                
+                 System.out.println("" + Createlikeslist);
+                try {
+                    SimpleStatement cqlQuery = new SimpleStatement(Createlikeslist);
+                    session.execute(cqlQuery);
+                } catch (Exception et) {
+                    System.out.println("Can't create likes table " + et);
+                }
+                
                 System.out.println("" + CreateIndexOnUserPicList);
                 try {
                     SimpleStatement cqlQuery = new SimpleStatement(CreateIndexOnUserPicList);

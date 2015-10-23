@@ -27,7 +27,7 @@
                     <label  name="email" class="form-control-label"><%=(String) request.getAttribute("firstName")%> <%=(String) request.getAttribute("lastName")%></label>
                 </div>
             </div>
-            <% if ((String) session.getAttribute("Username") != null) {
+            <%if ((String) session.getAttribute("Username") != null) {
                     if (!((String) session.getAttribute("Username")).equalsIgnoreCase((String) request.getAttribute("user"))) {
                         boolean following = (boolean) session.getAttribute("Following");
                         if (following) {
@@ -55,7 +55,25 @@
                         iterator = lsPics.iterator();
                         while (iterator.hasNext()) {
                             Pic p = (Pic) iterator.next();%>
-                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5"> <a href="${pageContext.request.contextPath}/Image/<%=p.getSUUID()%>" ><img src="${pageContext.request.contextPath}/Thumb/<%=p.getSUUID()%>"></a><br/></li>
+                            <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5">  <figure><a href="${pageContext.request.contextPath}/Image/<%=p.getSUUID()%>" ><img src="${pageContext.request.contextPath}/Thumb/<%=p.getSUUID()%>"></a><br/><br>
+                            <figcaption> 
+                                
+                                <form class="btn-group btn-group-sm" role="group" aria-label="Like" method="POST" action="${pageContext.request.contextPath}/Like">
+                                    <button type="submit" <% if (p.getLiked()||((String) session.getAttribute("Username") == null)){%> 
+                                            disabled <%}%> class="btn btn-success">Like</button>
+                                    <input type="hidden" name="userName" value="<%=(String)request.getAttribute("user")%>">
+                                    <input type="hidden" name="picid" value="<%=p.getSUUID()%>">
+                                    <input type="hidden" name="outcome" value="like">
+                                    <button type="button" disabled="true" class="btn btn-default"><%=p.getLikes()%></button>
+                                </form>
+                                <form class="btn-group btn-group-sm" role="group" aria-label="Dislike"method="POST" action="${pageContext.request.contextPath}/Like">
+                                    <button type="submit" <% if (p.getDisliked()){%> disabled <%}%>class="btn btn-primary">Dislike</button>
+                                    <input type="hidden" name="userName" value="<%=(String)request.getAttribute("user")%>">
+                                    <input type="hidden" name="picid" value="<%=p.getSUUID()%>">
+                                    <input type="hidden" name="outcome" value="dislike">
+                                    <button type="button" disabled="true" class="btn btn-default"><%=p.getDislikes()%></button>
+                                </form>
+                            </figcaption></figure></li>
                             <%}
                                 }%>
                 </ul>

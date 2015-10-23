@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -90,6 +91,11 @@ public class Image extends HttpServlet {
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        HttpSession session=request.getSession();
+        String userName="";
+        if (session.getAttribute("Username")!=null){
+        userName=(String)session.getAttribute("Username");
+        }
         User user = new User();
         user.setCluster(cluster);
         if (user.checkIfExists(User)) {
@@ -97,7 +103,7 @@ public class Image extends HttpServlet {
             tm.setCluster(cluster);
             java.util.LinkedList<Pic> pfPics = tm.getProfilePic(User);
             request.setAttribute("ProfilePics", pfPics);
-            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
+            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User,userName);
             request.setAttribute("Pics", lsPics);
 
             ArrayList<String> userDetails = user.getUserinfo(User);
@@ -181,6 +187,7 @@ public class Image extends HttpServlet {
             }
         }
     }
+    
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
 

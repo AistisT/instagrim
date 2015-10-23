@@ -49,11 +49,14 @@ public class PicModel {
         try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement psInsertPic = session.prepare("insert into pics ( picid, image,thumb,processed, user, date,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?,?)");
             PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added) values(?,?,?)");
+            PreparedStatement psInsertLikesList = session.prepare("insert into likeslist ( picid) values(?)");
             BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
             BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
+            BoundStatement bsInsertLikesList = new BoundStatement(psInsertLikesList);
             Date DateAdded = new Date();
             session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, DateAdded, length, thumblength, processedlength, type, name));
             session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
+            session.execute(bsInsertLikesList.bind(picid));
         }
     }
 
@@ -128,7 +131,7 @@ public class PicModel {
         return Pics;
     }
 
-    public byte[] picresize(String type, byte[] b) {
+    private byte[] picresize(String type, byte[] b) {
         try {
             InputStream is = new ByteArrayInputStream(b);
             BufferedImage BI = ImageIO.read(is);
@@ -146,7 +149,7 @@ public class PicModel {
         return null;
     }
 
-    public byte[] picdecolour(String type, byte[] b) {
+    private byte[] picdecolour(String type, byte[] b) {
         try {
             InputStream is = new ByteArrayInputStream(b);
             BufferedImage BI = ImageIO.read(is);
@@ -164,18 +167,18 @@ public class PicModel {
         return null;
     }
 
-    public static BufferedImage createThumbnail(BufferedImage img) {
+    private static BufferedImage createThumbnail(BufferedImage img) {
         img = resize(img, Method.QUALITY, 250, OP_ANTIALIAS);
         return img;
     }
 
-    public static BufferedImage createProcessed(BufferedImage img) {
+    private static BufferedImage createProcessed(BufferedImage img) {
         int Width = img.getWidth();
         img = resize(img, Method.QUALITY, Width, OP_ANTIALIAS);
         return img;
     }
 
-    public LinkedList<Pic> getPicsForUser(String User) {
+    public LinkedList<Pic> getPicsForUser(String User,String userName) {
         LinkedList<Pic> Pics = new LinkedList<>();
         try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");
@@ -191,11 +194,21 @@ public class PicModel {
                     java.util.UUID UUID = row.getUUID("picid");
                     System.out.println("UUID" + UUID.toString());
                     pic.setUUID(UUID);
+                    setLikes(pic, userName);
                     Pics.add(pic);
                 }
             }
         }
         return Pics;
+    }
+
+    private void setLikes(Pic pic, String user) {
+        LinkedList<String> userlistLike = getLikes(pic.getUUID(), "like");
+        LinkedList<String> userlistDislike = getLikes(pic.getUUID(), "dislike");
+        pic.setLikes(userlistLike.size());
+        pic.setLiked(userlistLike.contains(user));
+        pic.setDislikes(userlistDislike.size());
+        pic.setDisliked(userlistDislike.contains(user));
     }
 
     public LinkedList<Pic> getPics() {
@@ -212,13 +225,13 @@ public class PicModel {
                 for (Row row : rs) {
                     Pic pic = new Pic();
                     java.util.UUID UUID = row.getUUID("picid");
-                    Date date=row.getDate("date");
+                    Date date = row.getDate("date");
                     pic.setUUID(UUID);
                     pic.setDate(date);
                     Pics.add(pic);
                 }
             }
-             Collections.sort(Pics,Collections.reverseOrder());
+            Collections.sort(Pics, Collections.reverseOrder());
         }
         return Pics;
     }
@@ -333,4 +346,52 @@ public class PicModel {
         p.setPic(bImage, length, type);
         return p;
     }
+
+    public void insertLike(String user, java.util.UUID picid, String field) {
+
+        try (Session session = cluster.connect("instagrinAistis")) {
+            LinkedList<String> likes = getLikes(picid, field);
+            LinkedList<String> dislikes = getLikes(picid, field);
+            switch (field) {
+                case "like":
+                    likes.add(user);
+                    dislikes.clear();
+                    dislikes.addAll(removeLikes(picid, "dislike", user));
+                    break;
+                case "dislike":
+                    dislikes.add(user);
+                    likes.clear();
+                    likes.addAll(removeLikes(picid, "like", user));
+                    break;
+            }
+            PreparedStatement psInsertLikesList = session.prepare("update likeslist set like=?, dislike=? where picid=?");
+            BoundStatement bsLikesList = new BoundStatement(psInsertLikesList);
+            session.execute(bsLikesList.bind(likes, dislikes, picid));
+        }
+
+    }
+
+    private LinkedList<String> removeLikes(java.util.UUID picid, String field, String user) {
+        LinkedList<String> likes = getLikes(picid, field);
+        if (likes.contains(user)) {
+            likes.remove(user);
+        }
+        return likes;
+    }
+
+    private LinkedList<String> getLikes(java.util.UUID picid, String field) {
+        LinkedList<String> likes = new LinkedList<>();
+        Session session = cluster.connect("instagrinAistis");
+        PreparedStatement ps = session.prepare("select " + field + " from likeslist where picid =?");
+        ResultSet rs;
+        BoundStatement friends = new BoundStatement(ps);
+        rs = session.execute(friends.bind(picid));
+        if (!rs.isExhausted()) {
+            for (Row row : rs) {
+                likes.addAll(row.getList(field, String.class));
+            }
+        }
+        return likes;
+    }
+
 }

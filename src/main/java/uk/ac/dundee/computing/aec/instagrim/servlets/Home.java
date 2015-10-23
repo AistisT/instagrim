@@ -46,7 +46,7 @@ public class Home extends HttpServlet {
         if (username != null) {
             PicModel tm = new PicModel();
             tm.setCluster(cluster);
-            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
+            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username,username);
             request.setAttribute("Pics", lsPics);
             rd = request.getRequestDispatcher("home.jsp");
             rd.forward(request, response);

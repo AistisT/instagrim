@@ -51,6 +51,10 @@
         <servlet-name>Followers</servlet-name>
         <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Followers</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Like</servlet-name>
+        <servlet-class>uk.ac.dundee.computing.aec.instagrim.servlets.Like</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -77,7 +81,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Default</servlet-name>
-        <url-pattern></url-pattern>
+        <url-pattern/>
         <url-pattern>/Index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -104,9 +108,13 @@
         <servlet-name>Followers</servlet-name>
         <url-pattern>/Followers</url-pattern>
     </servlet-mapping>
-    <error-page>
+    <!--<error-page>
         <location>/error.jsp</location>
-    </error-page>
+    </error-page> -->
+    <servlet-mapping>
+        <servlet-name>Like</servlet-name>
+        <url-pattern>/Like</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
