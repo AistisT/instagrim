@@ -2,7 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap-theme.css" />
-        <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>InstaGrin</title>
@@ -15,7 +15,7 @@
                     e.value = "no";
                     location.reload(true);
                 }
-            }</script>
+            };</script>
     </head>
     <body> 
 

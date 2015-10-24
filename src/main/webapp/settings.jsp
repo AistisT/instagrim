@@ -3,6 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 border1"><br>
             <%  java.util.LinkedList<Pic> pfPics = (java.util.LinkedList<Pic>) request.getAttribute("ProfilePics");
@@ -60,5 +61,6 @@
                 </div>
             </div>
         </form>
+    </div>
     </div> 
 </html>

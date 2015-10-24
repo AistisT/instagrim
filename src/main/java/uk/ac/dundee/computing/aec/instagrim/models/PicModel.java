@@ -122,7 +122,6 @@ public class PicModel {
                 for (Row row : rs) {
                     Pic pic = new Pic();
                     java.util.UUID UUID = row.getUUID("picid");
-                    System.out.println("UUID" + UUID.toString());
                     pic.setUUID(UUID);
                     Pics.add(pic);
                 }
@@ -192,7 +191,6 @@ public class PicModel {
                 for (Row row : rs) {
                     Pic pic = new Pic();
                     java.util.UUID UUID = row.getUUID("picid");
-                    System.out.println("UUID" + UUID.toString());
                     pic.setUUID(UUID);
                     setLikes(pic, userName);
                     Pics.add(pic);
@@ -214,7 +212,7 @@ public class PicModel {
     public LinkedList<Pic> getPics() {
         LinkedList<Pic> Pics = new LinkedList<>();
         try (Session session = cluster.connect("instagrinAistis")) {
-            PreparedStatement ps = session.prepare("select picid,date from Pics LIMIT 20");
+            PreparedStatement ps = session.prepare("select picid,date,user from Pics LIMIT 20");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute(boundStatement.bind());
@@ -226,8 +224,10 @@ public class PicModel {
                     Pic pic = new Pic();
                     java.util.UUID UUID = row.getUUID("picid");
                     Date date = row.getDate("date");
+                    String user =row.getString("user");
                     pic.setUUID(UUID);
                     pic.setDate(date);
+                    pic.setOwner(user);
                     Pics.add(pic);
                 }
             }
@@ -239,10 +239,13 @@ public class PicModel {
     public void deletePicture(String picid) {
         try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("delete from Pics where picid=?");
-
             BoundStatement boundStatement = new BoundStatement(ps);
-
             session.execute(boundStatement.bind(java.util.UUID.fromString(picid)));
+            
+            PreparedStatement ps1 = session.prepare("delete from likeslist where picid=?");
+            BoundStatement boundStatement1 = new BoundStatement(ps1);
+            session.execute(boundStatement1.bind(java.util.UUID.fromString(picid)));
+            
             ResultSet rs = null;
             PreparedStatement ul = session.prepare("select * from userpiclist where picid=?");
             BoundStatement boundStatementUl = new BoundStatement(ul);
@@ -281,8 +284,10 @@ public class PicModel {
                         Pic pic = new Pic();
                         java.util.UUID UUID = row.getUUID("picid");
                         Date date = row.getDate("date");
-                        System.out.println("UUID" + UUID.toString());
+                        pic.setDate(date);
                         pic.setUUID(UUID);
+                        pic.setOwner(followList1);
+                        setLikes(pic, username);
                         map.put(date, pic);
                     }
                 }

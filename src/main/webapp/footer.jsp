@@ -2,11 +2,10 @@
 <!DOCTYPE html>
 <html>
     <body>
-       <footer>
-           <ul class="text-center">
-               <br/><br/>
-                <li>&COPY; Aistis Taraskevicius</li>
-            </ul>
+        <footer>
+            <div class="container">
+                <p class="text-muted text-center">&COPY; Aistis Taraskevicius</p>
+            </div>
         </footer>
     </body>
 </html>

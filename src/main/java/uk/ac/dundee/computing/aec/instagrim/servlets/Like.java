@@ -25,17 +25,22 @@ public class Like extends HttpServlet {
 
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("Username");
-        String userName=(String)request.getParameter("userName");
-        System.out.println("username= "+userName);
-       java.util.UUID picid =java.util.UUID.fromString(request.getParameter("picid"));
-        if ((String) session.getAttribute("Username") == null) { 
-           response.sendRedirect("Home");
+        String userName = (String) request.getParameter("userName");
+        String destination = (String) request.getParameter("source");
+        System.out.println("username= " + userName);
+        java.util.UUID picid = java.util.UUID.fromString(request.getParameter("picid"));
+        if ((String) session.getAttribute("Username") == null) {
+            response.sendRedirect("Home");
         } else {
             String outcome = request.getParameter("outcome");
             PicModel pm = new PicModel();
             pm.setCluster(cluster);
             pm.insertLike(user, picid, outcome);
-            response.sendRedirect(request.getContextPath()+"/Images/" + userName);
+            if (destination.equals("userpics")) {
+                response.sendRedirect(request.getContextPath() + "/Images/" + userName);
+            } else {
+                response.sendRedirect("Feed");
+            }
         }
     }
 

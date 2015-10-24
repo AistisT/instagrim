@@ -2,7 +2,10 @@ package uk.ac.dundee.computing.aec.instagrim.stores;
 
 import com.datastax.driver.core.utils.Bytes;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -12,10 +15,9 @@ public class Pic implements Comparable<Pic> {
 
     private ByteBuffer bImage = null;
     private int length;
-    private String type;
     private java.util.UUID UUID = null;
     private Date date;
-    private String tableName;
+    private String tableName,owner,type;
     int likes, dislikes;
     boolean liked, disliked;
 
@@ -40,6 +42,10 @@ public class Pic implements Comparable<Pic> {
 
     public Date getDate() {
         return date;
+    }
+        public String getDateFormated() {
+            DateFormat dateFormat=new SimpleDateFormat("HH:mm:ss dd.MM.yyy", Locale.UK);
+        return  dateFormat.format(date);
     }
 
     public void setDisliked(boolean disliked) {
@@ -81,6 +87,15 @@ public class Pic implements Comparable<Pic> {
     public String getTableName() {
         return tableName;
     }
+    
+     public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+    
 
     public void setUUID(java.util.UUID UUID) {
         this.UUID = UUID;

@@ -20,6 +20,10 @@ html {
 body {
   margin: 0;
 }
+
+figcaption {
+    padding-top: 3px;
+}
 article,
 aside,
 details,
@@ -36,8 +40,7 @@ summary {
   display: block;
 }
 .border1 {
-    border:1px solid #ccc; 
-    margin-left:70px;
+    border:1px solid #000; 
 }
 audio,
 canvas,
@@ -1626,8 +1629,8 @@ pre code {
   }
 }
 .container-fluid {
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 50px;
+  margin-left: 50px;
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -3067,7 +3070,6 @@ select[multiple].input-lg {
 .btn.disabled,
 .btn[disabled],
 fieldset[disabled] .btn {
-  cursor: not-allowed;
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
@@ -6574,6 +6576,7 @@ button.close {
   clear: both;
 }
 .center-block {
+  float: none !important;
   display: block;
   margin-left: auto;
   margin-right: auto;
