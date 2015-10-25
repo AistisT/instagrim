@@ -20,7 +20,6 @@
                 <div class="col-sm-8">
                     <input type="password" name="password" class="form-control" placeholder="Password" required autofocus>
                 </div>
-
                 <div class="checkbox col-sm-4">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
@@ -36,7 +35,6 @@
                 <%}%>
             </div>
         </form>
-
-    </div> <!-- /container -->
+    </div> 
 </body>
 </html>

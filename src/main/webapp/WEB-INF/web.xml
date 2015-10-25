@@ -108,9 +108,9 @@
         <servlet-name>Followers</servlet-name>
         <url-pattern>/Followers</url-pattern>
     </servlet-mapping>
-    <!--<error-page>
+    <error-page>
         <location>/error.jsp</location>
-    </error-page> -->
+    </error-page>
     <servlet-mapping>
         <servlet-name>Like</servlet-name>
         <url-pattern>/Like</url-pattern>

@@ -56,9 +56,4 @@ public class Login extends HttpServlet {
             response.sendRedirect("Home");
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
 }

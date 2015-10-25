@@ -60,9 +60,4 @@ public class Register extends HttpServlet {
             rd.forward(request, response);
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
 }

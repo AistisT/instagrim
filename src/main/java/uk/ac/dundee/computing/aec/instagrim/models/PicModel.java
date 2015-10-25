@@ -73,7 +73,6 @@ public class PicModel {
         int processedlength = processedb.length;
         try (Session session = cluster.connect("instagrinAistis")) {
             java.util.UUID currentPicid = getProfilePicId(user);
-            System.out.println(user);
             if (currentPicid == null) {
                 PreparedStatement psInsertPic = session.prepare("insert into ProfilePics ( picid, image,thumb,processed, user,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?)");
                 BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
@@ -94,7 +93,6 @@ public class PicModel {
         Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("select profilepic from userprofiles where login =?");
         ResultSet rs = null;
-        System.out.println(username);
         BoundStatement boundStatement = new BoundStatement(ps);
         java.util.UUID picid = null;
         rs = session.execute(boundStatement.bind(username));
@@ -109,14 +107,12 @@ public class PicModel {
 
     public LinkedList<Pic> getProfilePic(String User) {
         LinkedList<Pic> Pics = new LinkedList<>();
-        System.out.println(User);
         try (Session session = cluster.connect("instagrinAistis")) {
             PreparedStatement ps = session.prepare("select picid from ProfilePics where user =?");
             ResultSet rs = null;
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute(boundStatement.bind(User));
             if (rs.isExhausted()) {
-                System.out.println("No Images returned profilespic");
                 return null;
             } else {
                 for (Row row : rs) {
@@ -185,7 +181,6 @@ public class PicModel {
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute(boundStatement.bind(User));
             if (rs.isExhausted()) {
-                System.out.println("No Images returned user");
                 return null;
             } else {
                 for (Row row : rs) {
@@ -217,7 +212,6 @@ public class PicModel {
             BoundStatement boundStatement = new BoundStatement(ps);
             rs = session.execute(boundStatement.bind());
             if (rs.isExhausted()) {
-                System.out.println("No Images returned frontPics");
                 return null;
             } else {
                 for (Row row : rs) {
@@ -313,7 +307,6 @@ public class PicModel {
             try {
                 ResultSet rs = null;
                 PreparedStatement ps = null;
-                System.out.println(tableName);
                 if (image_type == Convertors.DISPLAY_IMAGE) {
                     ps = session.prepare("select image,imagelength,type from " + tableName + " where picid =?");
                 } else if (image_type == Convertors.DISPLAY_THUMB) {
@@ -324,7 +317,6 @@ public class PicModel {
                 BoundStatement boundStatement = new BoundStatement(ps);
                 rs = session.execute(boundStatement.bind(picid));
                 if (rs.isExhausted()) {
-                    System.out.println("No Images returned " + tableName);
                     return null;
                 } else {
                     for (Row row : rs) {
@@ -398,5 +390,4 @@ public class PicModel {
         }
         return likes;
     }
-
 }

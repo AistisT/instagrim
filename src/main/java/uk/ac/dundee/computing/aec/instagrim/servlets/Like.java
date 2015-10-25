@@ -27,10 +27,9 @@ public class Like extends HttpServlet {
         String user = (String) session.getAttribute("Username");
         String userName = (String) request.getParameter("userName");
         String destination = (String) request.getParameter("source");
-        System.out.println("username= " + userName);
         java.util.UUID picid = java.util.UUID.fromString(request.getParameter("picid"));
         if ((String) session.getAttribute("Username") == null) {
-            response.sendRedirect("Home");
+            response.sendRedirect("Login");
         } else {
             String outcome = request.getParameter("outcome");
             PicModel pm = new PicModel();
@@ -47,7 +46,7 @@ public class Like extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendError(404);
     }
 
     @Override
@@ -55,10 +54,4 @@ public class Like extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

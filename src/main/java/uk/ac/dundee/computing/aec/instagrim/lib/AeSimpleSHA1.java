@@ -31,5 +31,4 @@ public class AeSimpleSHA1 {
     sha1hash = md.digest();
     return convertToHex(sha1hash);
     } 
-} 
- 
+}  

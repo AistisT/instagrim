@@ -6,10 +6,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -42,7 +40,6 @@ public class Image extends HttpServlet {
     private Cluster cluster;
     private HashMap CommandsMap = new HashMap();
 
-
     public Image() {
         super();
         CommandsMap.put("Image", 1);
@@ -52,7 +49,7 @@ public class Image extends HttpServlet {
         CommandsMap.put("PThumb", 5);
 
     }
-    
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         cluster = CassandraHosts.getCluster();
@@ -65,7 +62,7 @@ public class Image extends HttpServlet {
         try {
             command = (Integer) CommandsMap.get(args[1]);
         } catch (Exception et) {
-            error("Bad Operator", response);
+            response.sendError(404);
             return;
         }
         switch (command) {
@@ -85,16 +82,15 @@ public class Image extends HttpServlet {
                 DisplayImage(Convertors.DISPLAY_THUMB, args[2], response, "ProfilePics");
                 break;
             default:
-                error("Bad Operator", response);
+                response.sendError(404);
         }
     }
 
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        HttpSession session=request.getSession();
-        String userName="";
-        if (session.getAttribute("Username")!=null){
-        userName=(String)session.getAttribute("Username");
+        HttpSession session = request.getSession();
+        String userName = "";
+        if (session.getAttribute("Username") != null) {
+            userName = (String) session.getAttribute("Username");
         }
         User user = new User();
         user.setCluster(cluster);
@@ -103,7 +99,7 @@ public class Image extends HttpServlet {
             tm.setCluster(cluster);
             java.util.LinkedList<Pic> pfPics = tm.getProfilePic(User);
             request.setAttribute("ProfilePics", pfPics);
-            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User,userName);
+            java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User, userName);
             request.setAttribute("Pics", lsPics);
 
             ArrayList<String> userDetails = user.getUserinfo(User);
@@ -124,15 +120,18 @@ public class Image extends HttpServlet {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
         Pic p = tm.getPic(type, java.util.UUID.fromString(Image), tableName);
-
-        try (OutputStream out = response.getOutputStream()) {
-            response.setContentType(p.getType());
-            response.setContentLength(p.getLength());
-            InputStream is = new ByteArrayInputStream(p.getBytes());
-            BufferedInputStream input = new BufferedInputStream(is);
-            byte[] buffer = new byte[8192];
-            for (int length = 0; (length = input.read(buffer)) > 0;) {
-                out.write(buffer, 0, length);
+        if (p == null) {
+            response.sendError(404);
+        } else {
+            try (OutputStream out = response.getOutputStream()) {
+                response.setContentType(p.getType());
+                response.setContentLength(p.getLength());
+                InputStream is = new ByteArrayInputStream(p.getBytes());
+                BufferedInputStream input = new BufferedInputStream(is);
+                byte[] buffer = new byte[8192];
+                for (int length = 0; (length = input.read(buffer)) > 0;) {
+                    out.write(buffer, 0, length);
+                }
             }
         }
     }
@@ -186,15 +185,5 @@ public class Image extends HttpServlet {
                 session.setAttribute(("userToFollow"), args[2]);
             }
         }
-    }
-    
-
-    private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
-
-        PrintWriter out = null;
-        out = new PrintWriter(response.getOutputStream());
-        out.println("<h1>You have a na error in your input</h1>");
-        out.println("<h2>" + mess + "</h2>");
-        out.close();
     }
 }

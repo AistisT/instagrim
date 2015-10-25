@@ -7,10 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- *
- * @author Administrator
- */
 public class Pic implements Comparable<Pic> {
 
     private ByteBuffer bImage = null;

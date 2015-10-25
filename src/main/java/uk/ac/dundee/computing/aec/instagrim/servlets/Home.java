@@ -41,7 +41,6 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         RequestDispatcher rd;
         HttpSession session = request.getSession(true);
-        System.out.println("session :"+session);
         String username = (String) session.getAttribute("Username");
         if (username != null) {
             PicModel tm = new PicModel();
@@ -53,10 +52,5 @@ public class Home extends HttpServlet {
         } else {
             response.sendRedirect("Login");
         }
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 }

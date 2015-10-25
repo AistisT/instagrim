@@ -10,7 +10,6 @@ public final class Keyspaces {
 
     public static void SetUpKeySpaces(Cluster c) {
         try {
-            //Add some keyspaces here
             String createkeyspace = "create keyspace if not exists instagrinAistis  WITH replication = {'class':'SimpleStrategy', 'replication_factor':1}";
             String CreatePicTable = "CREATE TABLE if not exists instagrinAistis.Pics ("
                     + " user varchar,"
@@ -87,7 +86,7 @@ public final class Keyspaces {
                 } catch (Exception et) {
                     System.out.println("Can't create instagrim " + et);
                 }
-                //now add some column families
+
                 System.out.println("" + CreateUserList);
                 try {
                     SimpleStatement cqlQuery = new SimpleStatement(CreateUserList);

@@ -72,9 +72,4 @@ public class Settings extends HttpServlet {
             response.sendRedirect("Login");
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
 }

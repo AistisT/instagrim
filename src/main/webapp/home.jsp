@@ -23,7 +23,7 @@
                 <div class="col-md-10">
                     <ul class="row">
                         <% java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-                                if (lsPics == null) {%>
+                            if (lsPics == null) {%>
                         <p>No pictures uploaded yet.</p>
                         <%} else {
                             Iterator<Pic> iterator;
@@ -43,7 +43,7 @@
                                     </form>
                                 </figcaption></figure></li>
                                 <% }
-                                        }%>
+                                    }%>
                     </ul>           
                 </div>
             </div>

@@ -47,7 +47,6 @@ public class Default extends HttpServlet {
         tm.setCluster(cluster);
         LinkedList<Pic> lsPics = tm.getPics();
         request.setAttribute("Pics", lsPics);
-
         User user = new User();
         user.setCluster(cluster);
         LinkedList<String> userList = user.getUserList();
@@ -59,14 +58,7 @@ public class Default extends HttpServlet {
             }
         }
         request.setAttribute("ProfilePicsList", profilePics);
-
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         rd.forward(request, response);
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

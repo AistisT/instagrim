@@ -18,7 +18,6 @@
             };</script>
     </head>
     <body> 
-
         <input type="hidden" id="refreshed" value="no">
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">

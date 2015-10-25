@@ -72,9 +72,4 @@ public class Followers extends HttpServlet {
             response.sendRedirect("Login");
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
 }

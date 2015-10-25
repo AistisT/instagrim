@@ -23,13 +23,7 @@ public class Delete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("Username");
-        if (username != null) {
-            response.sendRedirect("Home");
-        } else {
-            response.sendRedirect("/");
-        }
+            response.sendError(404);
     }
 
     @Override
@@ -40,10 +34,5 @@ public class Delete extends HttpServlet {
         pm.setCluster(cluster);
         pm.deletePicture(picid);
         response.sendRedirect("Home");
-    }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
     }
 }

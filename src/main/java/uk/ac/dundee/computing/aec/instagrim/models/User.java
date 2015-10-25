@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.dundee.computing.aec.instagrim.models;
 
 import com.datastax.driver.core.BoundStatement;
@@ -96,10 +91,8 @@ public class User {
         java.util.List<String> followingList = new java.util.LinkedList<>();
         boolean result = false;
         if (rs.isExhausted()) {
-            System.out.println("Following no users");
             return false;
         } else {
-
             for (Row row : rs) {
                 followingList = row.getList("following", String.class);
             }
@@ -136,7 +129,6 @@ public class User {
         BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute(boundStatement.bind());
         if (rs.isExhausted()) {
-            System.out.println("No registered users");
             return null;
         } else {
             for (Row row : rs) {
@@ -162,7 +154,6 @@ public class User {
         BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
-            System.out.println("No Images returned");
             return false;
         } else {
             for (Row row : rs) {
@@ -201,7 +192,6 @@ public class User {
         Session session = cluster.connect("instagrinAistis");
         PreparedStatement ps = session.prepare("UPDATE userprofiles SET first_name=?, last_name=?, email=? where login=?");
         BoundStatement boundStatement = new BoundStatement(ps);
-        System.out.println(firstName + " " + lastName + " " + email + " " + username);
         session.execute(boundStatement.bind(firstName, lastName, email, username));
         return true;
     }
@@ -212,7 +202,6 @@ public class User {
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
         String login = "";
-        System.out.println("user= " + username + " login=" + login);
         rs = session.execute(boundStatement.bind(username));
         if (rs.isExhausted()) {
         } else {
@@ -220,7 +209,6 @@ public class User {
                 login = row.getString("login");
             }
         }
-        System.out.println("user= " + username + " login=" + login);
         return login.equals(username);
     }
 

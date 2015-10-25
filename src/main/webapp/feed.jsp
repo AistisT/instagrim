@@ -36,7 +36,7 @@
                     </form>
                 </figcaption></figure></li>
                 <%}
-                            }%>
+                    }%>
             </ul>
         </div>
     </div>
