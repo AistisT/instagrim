@@ -146,7 +146,7 @@ public class Image extends HttpServlet {
             HttpSession session = request.getSession();
             String uri = (String) session.getAttribute("origin");
             String username = (String) session.getAttribute("Username");
-            if (type.equalsIgnoreCase("image/jpeg") || type.equalsIgnoreCase("image/png") || type.equalsIgnoreCase("image/jpg")) {
+            if (type.equalsIgnoreCase("image/jpeg") || type.equalsIgnoreCase("image/png") || type.equalsIgnoreCase("image/jpg")||type.equalsIgnoreCase("image/bmp")) {
                 if (i > 0) {
                     byte[] b = new byte[i + 1];
                     is.read(b);
@@ -169,7 +169,7 @@ public class Image extends HttpServlet {
                 checkFollowing(request);
                 response.sendRedirect("Home");
             }
-        }
+       }
     }
 
     protected void checkFollowing(HttpServletRequest request) {

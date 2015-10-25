@@ -10,12 +10,12 @@
                 <div class="col-md-2 border1">
                     <form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/Image" >
                         <h3>Picture upload</h3>
-                        <label>Picture to upload:</label> <input id="fileInput" type="file" accept=".jpg,.jpeg,.png" name="upfile"><br/>
+                        <label>Picture to upload:</label> <input id="fileInput" type="file" accept=".jpg,.jpeg,.png,.bmp" name="upfile"><br/>
                         <br/>
                         <input ID="upButton" type="submit"  onclick="<%session.setAttribute("origin", "home");%>" value="Press"> to upload the picture!
                         <% if (session.getAttribute("typeFail") != null) {
                                 if ((Boolean) session.getAttribute("typeFail") == true) {%>
-                        <h4 class="text-danger">Only images of a types: jpg, jpeg and png are allowed!</h4>
+                        <h4 class="text-danger">Only images of a types: jpg, jpeg, bmp and png are allowed!</h4>
                         <%}
                             }%>
                     </form>

@@ -19,7 +19,7 @@
                     } %>
                 <h3>File Upload</h3>
                 <form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/Image">
-                    File to upload: <input type="file" name="upfile"><br/>
+                    File to upload: <input type="file" name="upfile" accept=".jpg,.jpeg,.png,.bmp"><br/>
                     <br/>
                     <input type="submit" value="Press" onclick="<%session.setAttribute("origin", "settings");%>"> to upload the file!
                 </form>
