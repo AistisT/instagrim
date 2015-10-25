@@ -25,7 +25,7 @@
                 </form>
                 <% if (session.getAttribute("typeFail") != null) {
                         if ((Boolean) session.getAttribute("typeFail") == true) {%>
-                <h4 class="text-danger">Only images of a types: jpg, jpeg and png are allowed!</h4>
+                <h4 class="text-danger">Only images of a types: jpg, jpeg, bmp and png are allowed!</h4>
                 <%}
                     }%>
             </div>
