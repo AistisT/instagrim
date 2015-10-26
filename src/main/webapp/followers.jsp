@@ -6,7 +6,7 @@
 <html>
     <body>
         <div class="container">
-            <h1 class="text-center text-success">Users I am following</h1><br/>
+            <h1 class="text-center text-success">Users that I am following</h1><br/>
             <ul class="row">
                 <%  java.util.LinkedList<String> userList = (java.util.LinkedList<String>) request.getAttribute("followingList");
                     java.util.LinkedList<LinkedList> pfPics = (java.util.LinkedList<LinkedList>) request.getAttribute("ProfilePicsList");
@@ -34,7 +34,7 @@
                                     <%}
                                         }%>
             </ul>
-            <h1 class="text-center text-success">Users that are following you.</h1><br/>
+            <h1 class="text-center text-success">Users that are following you</h1><br/>
             <ul class="row">
                 <%  java.util.LinkedList<String> followers = (java.util.LinkedList<String>) request.getAttribute("followersList");
                     java.util.LinkedList<LinkedList> followersPf = (java.util.LinkedList<LinkedList>) request.getAttribute("followersProfilePics");
